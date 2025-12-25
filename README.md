@@ -84,7 +84,11 @@ AgroVision follows a **layered and scalable architecture**:
 - **Integration Layer:** Satellite, drone, IoT, market data  
 - **Notification Layer:** SMS, Email, In-app alerts
 
-- <img width="1024" height="1024" alt="Gemini_Generated_Image_wdh4vjwdh4vjwdh4" src="https://github.com/user-attachments/assets/52184563-06c4-480b-860f-7116db7afd4e" />
+<img width="968" height="859" alt="Gemini_Generated_Image_wdh4vjwdh4vjwdh4" src="https://github.com/user-attachments/assets/97adccd7-217a-4a2a-a778-78a89277bd69" />
+
 
 
 ---
+
+
+
