@@ -89,6 +89,14 @@ AgroVision follows a **layered and scalable architecture**:
 
 
 ---
+## 📂 Project Resources
+
+Here are the key resources for **AgroVision**:
+
+- **SRS Document:** [View SRS](https://drive.google.com/file/d/1G9dpM4_nRNWAOUAz3B3-ODP42fAYFdWZ/view?usp=sharing)  
+- **Dataset:** [Explore Dataset](https://drive.google.com/file/d/1aaiOf5tWj3LKYuelurWRMveqa465OUaY/view?usp=sharing)  
+- **YouTube Video Demo:** [Watch Video](https://youtu.be/HSbEyx-uODQ)  
+- **Full Project Drive Folder:** [Open Drive](https://drive.google.com/drive/folders/1-L9Xf2lS2GK6mPM4zxnK8FaT0LmhUOjC?usp=sharing)
 
 
 
