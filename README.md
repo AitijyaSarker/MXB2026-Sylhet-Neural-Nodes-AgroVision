@@ -180,4 +180,20 @@ You are free to use, modify, and distribute it.
 
 **AgroVision aims to bridge the gap between farmers and technology**, empowering agriculture in Bangladesh through AI, accessibility, and expert collaboration.
 
+<img width="1906" height="901" alt="Screenshot 2026-01-01 064910" src="https://github.com/user-attachments/assets/4b908656-f6b0-4dc1-b8bc-7a9cd0133c2b" />
+<img width="1919" height="830" alt="Screenshot 2026-01-01 084016" src="https://github.com/user-attachments/assets/cb08be34-bd15-4704-a90f-daa80377cc52" />
+<img width="1770" height="1033" alt="Screenshot 2026-01-01 083731" src="https://github.com/user-attachments/assets/430f0924-d4b5-4113-bb0d-b7befcf51180" />
+<img width="1281" height="1022" alt="Screenshot 2026-01-01 083759" src="https://github.com/user-attachments/assets/4d265a9b-8c80-46a7-a331-0ebf1adf96c5" />
+<img width="1770" height="843" alt="Screenshot 2026-01-01 083823" src="https://github.com/user-attachments/assets/cfa04f4b-2392-4ab2-afb4-7ff9a757e9a7" />
+<img width="1140" height="855" alt="Screenshot 2026-01-01 083914" src="https://github.com/user-attachments/assets/e4412f68-acaa-4a62-b568-de2009115e23" />
+<img width="1309" height="884" alt="Screenshot 2026-01-01 083934" src="https://github.com/user-attachments/assets/613e8077-be25-4064-9eb8-f32ea6741418" />
+
+
+
+
+
+
+
+
+
 
