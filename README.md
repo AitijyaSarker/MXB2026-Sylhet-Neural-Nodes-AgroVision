@@ -169,6 +169,15 @@ This project is licensed under the **MIT License**.
 
 ---
 
+<img width="1919" height="830" alt="Screenshot 2026-01-01 084016" src="https://github.com/user-attachments/assets/d1599e42-152b-4126-b196-50f0f7cb4dda" />
+<img width="1770" height="1033" alt="Screenshot 2026-01-01 083731" src="https://github.com/user-attachments/assets/1cabc171-aeca-466e-9915-ec109559b59a" />  <img width="1281" height="1022" alt="Screenshot 2026-01-01 083759" src="https://github.com/user-attachments/assets/c00c590d-bb9e-4051-90a7-9dfccee84f9a" />
+<img width="1770" height="843" alt="Screenshot 2026-01-01 083823" src="https://github.com/user-attachments/assets/8b04bd48-390f-4c28-84f2-1ca695de5d55" /> <img width="1140" height="855" alt="Screenshot 2026-01-01 083914" src="https://github.com/user-attachments/assets/1bf96d3a-7d28-49ca-ab2e-a4e1e3cee833" /> <img width="1309" height="884" alt="Screenshot 2026-01-01 083934" src="https://github.com/user-attachments/assets/b834557a-2feb-4383-b4d0-3a25b2042b45" />
+<img width="1309" height="884" alt="Screenshot 2026-01-01 083934" src="https://github.com/user-attachments/assets/d88b5188-5946-4d8e-8028-1ee3b6df6b4e" />
+
+
+
+
+
 ## 🔗 Project Resources
 
 ### 📂 Project Drive
