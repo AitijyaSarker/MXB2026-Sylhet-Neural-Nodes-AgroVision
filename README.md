@@ -1,102 +1,103 @@
-# 🌱 AgroVision  
-### AI-Powered Integrated Smart AgriTech Platform for Rapid Crop Health Monitoring and Disease Response
+# 🌱 AgroVision  - AI Crop Disease Detection
 
-AgroVision is an **AI-driven smart farming platform** developed for the **Million Bangladesh National AI Build-a-Thon**.  
-It leverages **Artificial Intelligence, Remote Sensing, and Real-Time Analytics** to enable **early crop disease detection, fast response, and data-driven agricultural decision-making** across Bangladesh.
+An AI-powered agricultural assistance app for farmers and specialists in Bangladesh, featuring crop disease detection, location-based agricultural office finder, and real-time chat support.
 
----
+## Features
 
-## 🚜 Problem Statement
+- **Crop Disease Detection**: Upload or capture leaf photos for AI-powered disease analysis
+- **Location Services**: Find nearby agricultural offices with distance calculations
+- **Multi-language Support**: English and Bengali language options
+- **User Authentication**: Separate accounts for farmers and agricultural specialists
+- **Real-time Chat**: Connect farmers with specialists for expert advice
+- **Responsive Design**: Works on desktop and mobile devices
 
-Agriculture and forestry are the backbone of Bangladesh’s economy, yet they face serious threats from:
+## User Registration & Authentication
 
-- Late detection of crop diseases and pest outbreaks  
-- Manual and inaccurate field inspections  
-- Lack of real-time monitoring and coordination  
-- Significant yield loss and farmer income reduction  
+Users can register as either **Farmers** or **Agricultural Specialists** using:
+- **Name**: Full name
+- **Email**: Valid email address (used for authentication)
+- **Password**: Minimum 6 characters
+- **Role**: Farmer or Specialist
 
-📉 **Over 9.9% annual crop loss** and **25% post-harvest loss** occur due to preventable plant diseases and delayed response.
+### Authentication Flow:
+1. **Registration**: New users create account with email/password
+2. **Email Verification**: Supabase sends confirmation email
+3. **Login**: Users login with email/password
+4. **Role-based Access**: Different dashboards for farmers vs specialists
 
----
+## Tech Stack
 
-## 💡 Solution Overview
+- **Frontend**: React 19, TypeScript, Tailwind CSS, Vite
+- **Mapping**: OpenStreetMap with React Leaflet
+- **AI**: Google Gemini API for disease detection and chat
+- **Backend**: Supabase (PostgreSQL, Authentication, Real-time)
+- **Icons**: Lucide React
 
-**AgroVision** addresses these challenges by providing a **unified AI-based smart farming ecosystem** that enables:
+## Setup Instructions
 
-- Early disease & pest detection  
-- Continuous crop health monitoring  
-- Fast alerts and response  
-- Intelligent recommendations for farmers and authorities  
+### Prerequisites
 
-The system is designed to be **scalable, accessible, and locally relevant**, with full **Bangla language support**.
+- Node.js (v18 or higher)
+- A Supabase account
 
----
+### 1. Clone and Install
 
-## 🧠 Key Features
+```bash
+git clone <repository-url>
+cd agrovision
+npm install
+```
 
-### 🌿 1. Crop Health Detection (Satellite & Drone)
-- Detects crop stress and anomalies using remote sensing
-- Identifies disease-prone zones early
+### 2. Supabase Setup
 
-### 🦠 2. Pest & Disease Early-Warning System
-- AI-based image analysis using CNN models
-- Severity classification and risk prediction
-- Instant alerts for high-risk cases
+**⚠️ IMPORTANT**: You must set up Supabase before the registration system will work!
 
-### 💧 3. Fertilizer & Irrigation Recommendation Engine
-- Data-driven suggestions based on soil, weather, and crop type
-- Optimizes input usage and reduces cost
+1. Create a new project at [supabase.com](https://supabase.com)
+2. Go to Settings > API to get your project URL and anon key
+3. Copy the SQL from `database_setup.sql` and run it in your Supabase SQL Editor
 
-### 📊 4. Real-Time Farmer Dashboard
-- Weather updates
-- Soil condition insights
-- Crop health status
-- Yield forecast visualization
+**📖 Detailed Setup Guide**: See [SUPABASE_SETUP.md](SUPABASE_SETUP.md) for step-by-step instructions.
 
-### 📈 5. Farm-to-Market Supply Chain & Price Forecasting
-- Predicts crop yield trends
-- Provides market price insights
-- Supports better selling decisions
+### 3. Environment Variables
 
-### 🧩 6. Custom AgriTech Challenge Module
-- Allows users to define and analyze custom agricultural problems
-- Enables future innovation and extensibility
+Create a `.env.local` file in the root directory:
 
----
+```env
+SUPABASE_URL=your_supabase_project_url
+SUPABASE_ANON_KEY=your_supabase_anon_key
+GEMINI_API_KEY=your_gemini_api_key
+```
 
-## 🧑‍🌾 Stakeholders & Users
+### 4. Run the Application
 
-- **Farmers & Local Growers** – Diagnosis, guidance, and decision support  
-- **Agricultural & Forest Officers** – Monitoring, alerts, and intervention  
-- **Government Agencies (DAE, BARI, BFRI)** – Policy planning and resource allocation  
-- **NGOs & Researchers** – Data analysis, outreach, and innovation  
+```bash
+npm run dev
+```
 
----
+The app will be available at `http://localhost:3010`
 
-## 🏗️ System Architecture (High-Level)
+## Database Schema
 
-AgroVision follows a **layered and scalable architecture**:
+The app uses the following main tables:
 
-- **Presentation Layer:** Web & Mobile Applications  
-- **Application Layer:** Backend APIs & Business Logic  
-- **AI & Analytics Layer:** Disease detection, prediction models  
-- **Data Layer:** Cloud databases & image storage  
-- **Integration Layer:** Satellite, drone, IoT, market data  
-- **Notification Layer:** SMS, Email, In-app alerts
+- **profiles**: User profiles with name, mobile, role (farmer/specialist)
+- **scans**: Disease detection scan history
+- **messages**: Chat messages between farmers and specialists
 
-<img width="968" height="859" alt="Gemini_Generated_Image_wdh4vjwdh4vjwdh4" src="https://github.com/user-attachments/assets/97adccd7-217a-4a2a-a778-78a89277bd69" />
+## User Roles
 
+- **Farmer**: Can scan crops, view nearby offices, chat with specialists
+- **Specialist**: Can respond to farmer queries, provide expert advice
+- **Guest**: Limited access, can view information but not use core features
 
+## Contributing
 
----
-## 📂 Project Resources
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
-Here are the key resources for **AgroVision**:
+## License
 
-- **SRS Document:** [View SRS](https://drive.google.com/file/d/1G9dpM4_nRNWAOUAz3B3-ODP42fAYFdWZ/view?usp=sharing)  
-- **Dataset:** [Explore Dataset](https://drive.google.com/file/d/1aaiOf5tWj3LKYuelurWRMveqa465OUaY/view?usp=sharing)  
-- **YouTube Video Demo:** [Watch Video](https://youtu.be/HSbEyx-uODQ)  
-- **Full Project Drive Folder:** [Open Drive](https://drive.google.com/drive/folders/1-L9Xf2lS2GK6mPM4zxnK8FaT0LmhUOjC?usp=sharing)
-
-
-
+This project is licensed under the MIT License.
