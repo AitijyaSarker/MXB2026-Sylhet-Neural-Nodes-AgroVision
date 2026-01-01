@@ -183,14 +183,33 @@ You are free to use, modify, and distribute it.
 <img width="1140" height="855" alt="Screenshot 2026-01-01 083914" src="https://github.com/user-attachments/assets/e4412f68-acaa-4a62-b568-de2009115e23" />
 <img width="1309" height="884" alt="Screenshot 2026-01-01 083934" src="https://github.com/user-attachments/assets/613e8077-be25-4064-9eb8-f32ea6741418" />
 
-🔗 Project Resources
+## 🔗 Project Resources
 
-📂 Project Drive (Datasets,SRS, Documents & Assets)
-👉 Google Drive Folder : https://drive.google.com/drive/folders/1-L9Xf2lS2GK6mPM4zxnK8FaT0LmhUOjC?usp=sharing
+Welcome! Below are the essential resources related to this project. All materials are organized and accessible through the links provided.
 
-🎥 Project Demo Video (YouTube)
-👉 Watch the Demo : https://youtu.be/ic_0TmDpWyw
+---
 
+### 📂 Project Drive
+
+**Datasets, Documents & Assets**
+All datasets, supporting documents, and project assets are stored in the Google Drive folder below:
+
+👉 **Google Drive Folder**
+[https://drive.google.com/drive/folders/1-L9Xf2lS2GK6mPM4zxnK8FaT0LmhUOjC?usp=sharing](https://drive.google.com/drive/folders/1-L9Xf2lS2GK6mPM4zxnK8FaT0LmhUOjC?usp=sharing)
+
+---
+
+### 🎥 Project Demo Video
+
+**YouTube Demonstration**
+Watch the complete project walkthrough and demo using the link below:
+
+👉 **Demo Video**
+[https://youtu.be/ic_0TmDpWyw](https://youtu.be/ic_0TmDpWyw)
+
+---
+
+If you face any issues accessing the resources or need further clarification, feel free to reach out.
 
 
 
