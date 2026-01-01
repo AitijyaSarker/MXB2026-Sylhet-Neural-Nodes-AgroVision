@@ -1,8 +1,3 @@
-Here’s a **polished, professional, GitHub-ready README.md** for **AgroVision**, with **clean structure, clear explanations, and meaningful icons (emojis)**—not overused, but visually helpful 🌱
-
-You can **copy–paste this directly** into your repository.
-
----
 
 # 🌾 AgroVision — AI Crop Disease Detection Platform
 
@@ -188,7 +183,13 @@ You are free to use, modify, and distribute it.
 <img width="1140" height="855" alt="Screenshot 2026-01-01 083914" src="https://github.com/user-attachments/assets/e4412f68-acaa-4a62-b568-de2009115e23" />
 <img width="1309" height="884" alt="Screenshot 2026-01-01 083934" src="https://github.com/user-attachments/assets/613e8077-be25-4064-9eb8-f32ea6741418" />
 
+🔗 Project Resources
 
+📂 Project Drive (Datasets,SRS, Documents & Assets)
+👉 Google Drive Folder
+
+🎥 Project Demo Video (YouTube)
+👉 Watch the Demo
 
 
 
