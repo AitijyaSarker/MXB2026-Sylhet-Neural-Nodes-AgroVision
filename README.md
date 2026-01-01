@@ -186,10 +186,10 @@ You are free to use, modify, and distribute it.
 🔗 Project Resources
 
 📂 Project Drive (Datasets,SRS, Documents & Assets)
-👉 Google Drive Folder
+👉 Google Drive Folder : https://drive.google.com/drive/folders/1-L9Xf2lS2GK6mPM4zxnK8FaT0LmhUOjC?usp=sharing
 
 🎥 Project Demo Video (YouTube)
-👉 Watch the Demo
+👉 Watch the Demo : https://youtu.be/ic_0TmDpWyw
 
 
 
