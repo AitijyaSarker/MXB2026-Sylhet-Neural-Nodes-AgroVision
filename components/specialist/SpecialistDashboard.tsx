@@ -1,15 +1,31 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SpecialistMessenger } from './SpecialistMessenger';
 import { Language } from '../../types';
 import { LayoutDashboard, MessageSquare, Calendar, Users, Bell, Search, Settings } from 'lucide-react';
+import { dbService } from '../../mongodb';
 
 interface SpecialistDashboardProps {
   lang: Language;
+  userId?: string;
 }
 
-export const SpecialistDashboard: React.FC<SpecialistDashboardProps> = ({ lang }) => {
-  const [activeTab, setActiveTab] = useState<'messenger' | 'stats' | 'appointments'>('messenger');
+export const SpecialistDashboard: React.FC<SpecialistDashboardProps> = ({ lang, userId }) => {
+  const [activeTab, setActiveTab] = useState<'messenger' | 'stats' | 'appointments' | 'profile'>('messenger');
+  const [userProfile, setUserProfile] = useState<any>(null);
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    const loadUserProfile = async () => {
+      if (!userId) return;
+      const { data, error } = await dbService.getProfile(userId);
+      if (data && !error) {
+        setUserProfile(data);
+      }
+    };
+    loadUserProfile();
+  }, [userId]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -24,16 +40,40 @@ export const SpecialistDashboard: React.FC<SpecialistDashboardProps> = ({ lang }
         </div>
         <div className="flex items-center gap-4">
           <div className="relative">
-             <Bell className="w-6 h-6 text-zinc-400 cursor-pointer hover:text-green-600 transition-colors" />
-             <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-[10px] text-white flex items-center justify-center rounded-full font-bold">5</div>
+            <button 
+              onClick={() => setNotifications(notifications.length > 0 ? [] : [{ id: 1, message: 'New message from farmer', time: '5 min ago' }])}
+              className="relative p-2 text-zinc-400 hover:text-green-600 transition-colors rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800"
+            >
+              <Bell className="w-6 h-6" />
+              {unreadCount > 0 && (
+                <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-[10px] text-white flex items-center justify-center rounded-full font-bold">
+                  {unreadCount}
+                </div>
+              )}
+            </button>
+            {notifications.length > 0 && (
+              <div className="absolute top-full right-0 mt-2 w-80 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-lg z-50">
+                <div className="p-4 border-b border-zinc-200 dark:border-zinc-700">
+                  <h3 className="font-bold text-zinc-900 dark:text-white">{lang === 'bn' ? 'নোটিফিকেশন' : 'Notifications'}</h3>
+                </div>
+                <div className="max-h-60 overflow-y-auto">
+                  {notifications.map((notif: any) => (
+                    <div key={notif.id} className="p-4 border-b border-zinc-100 dark:border-zinc-700 last:border-b-0 hover:bg-zinc-50 dark:hover:bg-zinc-700">
+                      <p className="text-sm text-zinc-900 dark:text-white">{notif.message}</p>
+                      <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">{notif.time}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
           <div className="h-10 w-[1px] bg-zinc-200 dark:bg-zinc-800" />
           <div className="flex items-center gap-3 bg-white dark:bg-zinc-800 px-4 py-2 rounded-2xl shadow-sm border border-zinc-100 dark:border-zinc-700">
-             <img src="https://picsum.photos/100/100?person=1" className="w-8 h-8 rounded-full" alt="avatar" />
-             <div className="text-left">
-                <p className="text-xs font-bold leading-none">Dr. Rafiqul</p>
-                <p className="text-[10px] text-zinc-400 uppercase tracking-tighter">Plant Pathologist</p>
-             </div>
+            <img src={`https://picsum.photos/100/100?person=${userId}`} className="w-8 h-8 rounded-full" alt="avatar" />
+            <div className="text-left">
+              <p className="text-xs font-bold leading-none">{userProfile?.name || 'Loading...'}</p>
+              <p className="text-[10px] text-zinc-400 uppercase tracking-tighter">{userProfile?.role === 'specialist' ? 'Plant Pathologist' : 'Specialist'}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -45,8 +85,7 @@ export const SpecialistDashboard: React.FC<SpecialistDashboardProps> = ({ lang }
             { id: 'messenger', label: lang === 'bn' ? 'মেসেঞ্জার' : 'Messenger', icon: MessageSquare },
             { id: 'stats', label: lang === 'bn' ? 'পরিসংখ্যান' : 'Analytics', icon: LayoutDashboard },
             { id: 'appointments', label: lang === 'bn' ? 'অ্যাপয়েন্টমেন্ট' : 'Appointments', icon: Calendar },
-            { id: 'farmers', label: lang === 'bn' ? 'আমার কৃষক' : 'My Farmers', icon: Users },
-            { id: 'settings', label: lang === 'bn' ? 'সেটিংস' : 'Settings', icon: Settings },
+            { id: 'profile', label: lang === 'bn' ? 'প্রোফাইল' : 'Profile', icon: Users },
           ].map(item => (
             <button
               key={item.id}
@@ -66,7 +105,57 @@ export const SpecialistDashboard: React.FC<SpecialistDashboardProps> = ({ lang }
         {/* Content Area */}
         <div className="md:col-span-3 min-h-[600px]">
           {activeTab === 'messenger' ? (
-            <SpecialistMessenger lang={lang} />
+            <SpecialistMessenger lang={lang} userId={userId} />
+          ) : activeTab === 'profile' ? (
+            <div className="max-w-2xl mx-auto bg-white dark:bg-zinc-800 p-8 rounded-3xl shadow-lg">
+              <h2 className="text-2xl font-bold mb-6 text-zinc-900 dark:text-white">{lang === 'bn' ? 'প্রোফাইল' : 'Profile'}</h2>
+              {userProfile && (
+                <div className="space-y-6">
+                  <div className="flex items-center gap-4">
+                    <img src={`https://picsum.photos/100/100?person=${userId}`} className="w-20 h-20 rounded-full border-4 border-green-500" alt="Profile" />
+                    <div>
+                      <h3 className="text-xl font-bold text-zinc-900 dark:text-white">{userProfile.name}</h3>
+                      <p className="text-zinc-600 dark:text-zinc-400">{userProfile.email}</p>
+                      <p className="text-sm text-green-600 font-bold uppercase">{userProfile.role}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-bold text-zinc-700 dark:text-zinc-300 mb-2">{lang === 'bn' ? 'নাম' : 'Name'}</label>
+                      <input 
+                        type="text" 
+                        value={userProfile.name}
+                        onChange={(e) => setUserProfile({...userProfile, name: e.target.value})}
+                        className="w-full p-3 border border-zinc-300 dark:border-zinc-600 rounded-xl bg-white dark:bg-zinc-700 text-zinc-900 dark:text-white"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-bold text-zinc-700 dark:text-zinc-300 mb-2">{lang === 'bn' ? 'ইমেইল' : 'Email'}</label>
+                      <input 
+                        type="email" 
+                        value={userProfile.email}
+                        disabled
+                        className="w-full p-3 border border-zinc-300 dark:border-zinc-600 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 cursor-not-allowed"
+                      />
+                    </div>
+                  </div>
+                  
+                  <button 
+                    className="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl transition-all"
+                    onClick={async () => {
+                      // Update profile
+                      const { error } = await dbService.updateProfile(userId!, { name: userProfile.name });
+                      if (!error) {
+                        alert(lang === 'bn' ? 'প্রোফাইল আপডেট হয়েছে!' : 'Profile updated successfully!');
+                      }
+                    }}
+                  >
+                    {lang === 'bn' ? 'আপডেট করুন' : 'Update Profile'}
+                  </button>
+                </div>
+              )}
+            </div>
           ) : (
             <div className="bg-white dark:bg-zinc-800 p-12 rounded-[2.5rem] border border-zinc-100 dark:border-zinc-700 flex flex-col items-center justify-center text-center">
                <div className="p-6 bg-zinc-50 dark:bg-zinc-900 rounded-full mb-6">

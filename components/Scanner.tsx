@@ -1,22 +1,25 @@
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Camera, Upload, RefreshCcw, CheckCircle2, AlertCircle, Sparkles } from 'lucide-react';
-import { Language, DiseaseDetectionResult } from '../types';
-import { translations } from '../translations';
+import { DiseaseDetectionResult } from '../types';
+import { useTranslation } from '../src/hooks/useTranslation';
 import { detectCropDisease } from '../geminiService';
 
-interface ScannerProps {
-  lang: Language;
-}
-
-export const Scanner: React.FC<ScannerProps> = ({ lang }) => {
+export const Scanner: React.FC = () => {
+  const { t, lang } = useTranslation();
   const [image, setImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<DiseaseDetectionResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const t = (key: string) => translations[key]?.[lang] || key;
+  // Re-run detection when language changes if we have an image
+  useEffect(() => {
+    if (image && !loading) {
+      const base64 = image.split(',')[1];
+      processImage(base64);
+    }
+  }, [lang]);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -39,7 +42,7 @@ export const Scanner: React.FC<ScannerProps> = ({ lang }) => {
       const detection = await detectCropDisease(base64, lang);
       setResult(detection);
     } catch (err) {
-      setError(lang === 'bn' ? 'ছবি বিশ্লেষণে ত্রুটি হয়েছে' : 'Error analyzing image');
+      setError(t('error'));
     } finally {
       setLoading(false);
     }
@@ -63,8 +66,8 @@ export const Scanner: React.FC<ScannerProps> = ({ lang }) => {
               <Upload className="w-12 h-12 text-green-600" />
             </div>
             <div className="text-center">
-              <p className="text-xl font-bold">{lang === 'bn' ? 'ছবি আপলোড করুন' : 'Upload Image'}</p>
-              <p className="text-zinc-500 text-sm">{lang === 'bn' ? 'গ্যালারি থেকে সিলেক্ট করুন' : 'Select from Gallery'}</p>
+              <p className="text-xl font-bold">{t('upload_image')}</p>
+              <p className="text-zinc-500 text-sm">{t('upload_gallery')}</p>
             </div>
           </div>
 
@@ -75,8 +78,8 @@ export const Scanner: React.FC<ScannerProps> = ({ lang }) => {
               <Camera className="w-12 h-12 text-blue-600" />
             </div>
             <div className="text-center">
-              <p className="text-xl font-bold">{lang === 'bn' ? 'ক্যামেরা (শীঘ্রই আসছে)' : 'Camera (Coming Soon)'}</p>
-              <p className="text-zinc-500 text-sm">{lang === 'bn' ? 'সরাসরি ছবি তুলুন' : 'Take a photo directly'}</p>
+              <p className="text-xl font-bold">{t('camera_coming_soon')}</p>
+              <p className="text-zinc-500 text-sm">{t('take_photo_directly')}</p>
             </div>
           </div>
           <input type="file" hidden ref={fileInputRef} onChange={handleFileUpload} accept="image/*" />
@@ -150,21 +153,21 @@ export const Scanner: React.FC<ScannerProps> = ({ lang }) => {
                     className="w-full py-4 mt-4 bg-zinc-100 dark:bg-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-600 rounded-xl font-bold flex items-center justify-center gap-2 transition-all"
                   >
                     <RefreshCcw className="w-5 h-5" />
-                    {lang === 'bn' ? 'আবার স্ক্যান করুন' : 'Scan Again'}
+                    {t('scan_again')}
                   </button>
                 </div>
               ) : error ? (
                 <div className="p-8 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-3xl border border-red-200 dark:border-red-800 flex flex-col items-center justify-center gap-4 h-full">
                   <AlertCircle className="w-12 h-12" />
                   <p className="text-xl font-bold">{error}</p>
-                  <button onClick={reset} className="px-6 py-2 bg-red-600 text-white rounded-xl font-bold">{lang === 'bn' ? 'আবার চেষ্টা করুন' : 'Try Again'}</button>
+                  <button onClick={reset} className="px-6 py-2 bg-red-600 text-white rounded-xl font-bold">{t('try_again')}</button>
                 </div>
               ) : (
                 <div className="p-8 bg-white dark:bg-zinc-800 rounded-3xl border border-zinc-200 dark:border-zinc-700 h-full flex flex-col items-center justify-center text-center gap-4">
                    <div className="w-16 h-16 bg-zinc-100 dark:bg-zinc-900 rounded-full flex items-center justify-center animate-pulse">
                       <Sparkles className="w-8 h-8 text-zinc-300" />
                    </div>
-                   <p className="text-zinc-500">{lang === 'bn' ? 'AI ফলাফলের জন্য অপেক্ষা করুন' : 'Waiting for AI results...'}</p>
+                   <p className="text-zinc-500">{t('waiting_for_ai')}</p>
                 </div>
               )}
             </div>

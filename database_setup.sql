@@ -36,12 +36,26 @@ CREATE TABLE profiles (
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 
 -- TEMPORARILY DISABLE RLS FOR TESTING (remove this after fixing)
--- ALTER TABLE profiles DISABLE ROW LEVEL SECURITY;
+ALTER TABLE profiles DISABLE ROW LEVEL SECURITY;
 
 -- Create policies for profiles table
 CREATE POLICY "Users can view own profile" ON profiles
   FOR SELECT USING (auth.uid() = id);
 
+CREATE POLICY "Authenticated users can view specialists" ON profiles
+  FOR SELECT USING (
+    auth.uid() IS NOT NULL AND
+    role = 'specialist'
+  );
+
+CREATE POLICY "Authenticated users can view farmers" ON profiles
+  FOR SELECT USING (
+    auth.uid() IS NOT NULL AND
+    role = 'farmer'
+  );
+-- Also allow authenticated users to view all profiles (simpler approach)
+CREATE POLICY "Allow authenticated users to view all profiles" ON profiles
+  FOR SELECT USING (auth.uid() IS NOT NULL);
 CREATE POLICY "Users can update own profile" ON profiles
   FOR UPDATE USING (auth.uid() = id);
 
@@ -84,7 +98,7 @@ CREATE POLICY "Users can insert own scans" ON scans
 DROP TABLE IF EXISTS messages CASCADE;
 CREATE TABLE messages (
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-  conversation_id UUID NOT NULL,
+  conversation_id TEXT NOT NULL,
   sender_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
   text TEXT NOT NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
@@ -95,7 +109,11 @@ ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
 
 -- Policies for messages (simplified for now - you can adjust based on your conversation logic)
 CREATE POLICY "Users can view messages in their conversations" ON messages
-  FOR SELECT USING (auth.uid() = sender_id);
+  FOR SELECT USING (
+    auth.uid() = sender_id OR 
+    conversation_id LIKE auth.uid() || '-%' OR 
+    conversation_id LIKE '%-' || auth.uid()
+  );
 
 CREATE POLICY "Users can insert messages" ON messages
   FOR INSERT WITH CHECK (auth.uid() = sender_id);
@@ -152,3 +170,10 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER handle_profiles_updated_at
   BEFORE UPDATE ON profiles
   FOR EACH ROW EXECUTE FUNCTION handle_updated_at();
+
+-- Insert test specialists (run this manually after setup)
+-- Note: Replace the UUIDs with actual user IDs after registering specialist accounts
+-- INSERT INTO profiles (id, name, email, role) VALUES
+--   ('specialist-user-id-1', 'Dr. Mohammad Rahman', 'rahman@bari.gov.bd', 'specialist'),
+--   ('specialist-user-id-2', 'Dr. Fatima Khan', 'khan@bari.gov.bd', 'specialist'),
+--   ('specialist-user-id-3', 'Dr. Abdul Karim', 'karim@bari.gov.bd', 'specialist');

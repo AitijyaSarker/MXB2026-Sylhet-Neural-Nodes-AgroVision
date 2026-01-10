@@ -1,16 +1,14 @@
 
 import React from 'react';
 import { Scan, ShieldCheck, Microscope, Users, ArrowRight } from 'lucide-react';
-import { Language } from '../../types';
-import { translations } from '../../translations';
+import { useTranslation } from '../../src/hooks/useTranslation';
 
 interface HeroProps {
-  lang: Language;
   onScanClick: () => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ lang, onScanClick }) => {
-  const t = (key: string) => translations[key]?.[lang] || key;
+export const Hero: React.FC<HeroProps> = ({ onScanClick }) => {
+  const { t } = useTranslation();
 
   return (
     <div className="relative w-full min-h-[85vh] flex items-center overflow-hidden">
@@ -45,14 +43,14 @@ export const Hero: React.FC<HeroProps> = ({ lang, onScanClick }) => {
         <div className="max-w-2xl space-y-8 animate-in fade-in slide-in-from-left-8 duration-1000">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 backdrop-blur-md border border-green-500/30 text-green-300 text-sm font-bold tracking-wide uppercase">
             <ShieldCheck className="w-4 h-4" />
-            {lang === 'bn' ? 'বিশ্বস্ত কৃষি প্রযুক্তি' : 'Trusted Agri-Tech'}
+            {t('trusted_agri_tech')}
           </div>
           
           <div className="space-y-4">
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white leading-[1.1] tracking-tight">
               {t('hero_title')}
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300">
-                {lang === 'bn' ? 'স্মার্ট কৃষি' : 'Smart Farming'}
+                {t('smart_farming')}
               </span>
             </h1>
 
@@ -85,7 +83,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onScanClick }) => {
               <div className="text-white">
                 <p className="text-lg font-black leading-none">12.5k+</p>
                 <p className="text-xs font-bold text-zinc-300 uppercase tracking-tighter">
-                  {lang === 'bn' ? 'কৃষক যুক্ত' : 'Farmers Impacted'}
+                  {t('farmers_impacted')}
                 </p>
               </div>
             </div>
@@ -96,16 +94,16 @@ export const Hero: React.FC<HeroProps> = ({ lang, onScanClick }) => {
             <div className="space-y-1">
               <div className="flex items-center gap-2 text-green-400">
                 <Microscope className="w-4 h-4" />
-                <span className="text-xs font-bold uppercase tracking-widest">AI Detection</span>
+                <span className="text-xs font-bold uppercase tracking-widest">{t('ai_detection')}</span>
               </div>
-              <p className="text-white font-bold text-lg">98.4% Accuracy</p>
+              <p className="text-white font-bold text-lg">{t('accuracy_rate')}</p>
             </div>
             <div className="space-y-1">
               <div className="flex items-center gap-2 text-blue-400">
                 <Users className="w-4 h-4" />
-                <span className="text-xs font-bold uppercase tracking-widest">Expert Help</span>
+                <span className="text-xs font-bold uppercase tracking-widest">{t('expert_help')}</span>
               </div>
-              <p className="text-white font-bold text-lg">24/7 Response</p>
+              <p className="text-white font-bold text-lg">{t('response_time')}</p>
             </div>
           </div>
         </div>

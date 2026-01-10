@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/common/Navbar';
 import { Hero } from './components/common/Hero';
-import FarmerDashboard from './components/farmer/FarmerDashboard';
+import { FarmerDashboard } from './components/farmer/FarmerDashboard';
 import { SpecialistDashboard } from './components/specialist/SpecialistDashboard';
 import { About } from './components/common/About';
 import { Datasets } from './components/common/Datasets';
@@ -11,7 +11,6 @@ import { Register } from './components/Register';
 import { Login } from './components/Login';
 import { Language, UserRole } from './types';
 import { dbService } from './mongodb';
-import { LanguageProvider, useTranslation } from './src/hooks/useTranslation';
 
 // Function to setup test data (call this from browser console)
 (window as any).setupTestData = () => {
@@ -105,7 +104,7 @@ import { LanguageProvider, useTranslation } from './src/hooks/useTranslation';
 };
 
 const App: React.FC = () => {
-  const { lang, setLang, t } = useTranslation();
+  const [lang, setLang] = useState<Language>('en');
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [currentPage, setCurrentPage] = useState<string>('home');
   const [userRole, setUserRole] = useState<UserRole>('guest');
@@ -113,23 +112,12 @@ const App: React.FC = () => {
   const [authMode, setAuthMode] = useState<'login' | 'register'>('register');
 
   useEffect(() => {
-    // Initialize API service
-    const initApp = async () => {
-      try {
-        await dbService.init();
-        console.log('✅ API service initialized successfully');
-      } catch (error) {
-        console.error('❌ API service initialization failed:', error);
-        // Continue with fallback functionality
-      }
-    };
-
-    initApp();
-
-    // Load theme from localStorage
+    // Load theme and language from localStorage
+    const savedLang = localStorage.getItem('agrovision-lang') as Language;
     const savedTheme = localStorage.getItem('agrovision-theme') as 'light' | 'dark';
     const savedUser = localStorage.getItem('user');
 
+    if (savedLang) setLang(savedLang);
     if (savedTheme) setTheme(savedTheme);
 
     document.documentElement.classList.toggle('dark', savedTheme === 'dark');
@@ -144,16 +132,6 @@ const App: React.FC = () => {
         console.error('Error parsing saved user:', err);
         localStorage.removeItem('user');
       }
-    }
-
-    // Auto-setup test data if no users exist
-    const existingUsers = localStorage.getItem('agrovision_users');
-    if (!existingUsers || JSON.parse(existingUsers).length === 0) {
-      console.log('🔄 Auto-setting up test data...');
-      (window as any).setupTestData();
-      console.log('✅ Test data setup complete');
-    } else {
-      console.log('📊 Existing users found:', JSON.parse(existingUsers).length);
     }
   }, []);
 
@@ -181,7 +159,7 @@ const App: React.FC = () => {
   const renderPage = () => {
     switch (currentPage) {
       case 'home':
-        return <Hero onScanClick={() => setCurrentPage('signup')} />;
+        return <Hero lang={lang} onGetStarted={() => setCurrentPage('signup')} />;
       case 'login':
         return (
           <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-zinc-900 p-6">
@@ -213,45 +191,43 @@ const App: React.FC = () => {
       case 'dashboard':
         return userRole === 'specialist'
           ? <SpecialistDashboard lang={lang} userId={user?.id} />
-          : <FarmerDashboard />;
+          : <FarmerDashboard lang={lang} userRole={userRole} userId={user?.id} user={user} />;
       case 'datasets':
-        return <Datasets />;
+        return <Datasets lang={lang} />;
       case 'about':
-        return <About />;
+        return <About lang={lang} />;
       case 'contact':
-        return <Contact />;
+        return <Contact lang={lang} />;
       default:
-        return <Hero onScanClick={() => setCurrentPage('signup')} />;
+        return <Hero lang={lang} onGetStarted={() => setCurrentPage('signup')} />;
     }
   };
 
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
       <Navbar
+        lang={lang}
         theme={theme}
-        setTheme={(newTheme) => {
+        currentPage={currentPage}
+        userRole={userRole}
+        onPageChange={setCurrentPage}
+        onLangChange={(newLang) => {
+          setLang(newLang);
+          localStorage.setItem('agrovision-lang', newLang);
+        }}
+        onThemeChange={(newTheme) => {
           setTheme(newTheme);
           localStorage.setItem('agrovision-theme', newTheme);
           document.documentElement.classList.toggle('dark', newTheme === 'dark');
         }}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        userRole={userRole}
-        user={user}
         onLogout={handleLogout}
       />
       <main className="pt-16 min-h-[calc(100vh-80px)]">
         {renderPage()}
       </main>
-      <Footer />
+      <Footer lang={lang} />
     </div>
   );
 };
 
-const AppWithProvider: React.FC = () => (
-  <LanguageProvider>
-    <App />
-  </LanguageProvider>
-);
-
-export default AppWithProvider;
+export default App;

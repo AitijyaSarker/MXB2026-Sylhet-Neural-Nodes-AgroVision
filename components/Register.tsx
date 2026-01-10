@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { supabase, authService, dbService } from '../supabase';
+import { dbService } from '../mongodb';
 import { Language, UserRole } from '../types';
 import { UserPlus, Mail, Lock, User } from 'lucide-react';
 
@@ -45,46 +45,35 @@ export const Register: React.FC<RegisterProps> = ({ lang, onRegisterSuccess, onS
         throw new Error(lang === 'bn' ? 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষর হতে হবে' : 'Password must be at least 6 characters');
       }
 
-      // Sign up with Supabase
-      const { data, error: signUpError } = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password,
-        options: {
-          data: {
-            name: formData.name,
-            role: formData.role,
-            email: formData.email
-          }
-        }
-      });
+      // Generate a simple user ID (in production, use proper auth)
+      const userId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
-      if (signUpError) {
-        // Handle rate limiting
-        if (signUpError.message?.includes('429') || signUpError.message?.includes('rate limit') || signUpError.status === 429) {
-          throw new Error(lang === 'bn' ? 'অনেক চেষ্টা করেছেন। কিছুক্ষণ অপেক্ষা করে আবার চেষ্টা করুন।' : 'Too many attempts. Please wait a moment and try again.');
-        }
-        throw signUpError;
+      // Create profile in MongoDB
+      console.log('🔐 Creating user profile:', formData.email, 'Role:', formData.role);
+      const { data: newProfile, error: createError } = await dbService.createProfile(
+        userId,
+        formData.name,
+        formData.email,
+        formData.role
+      );
+
+      if (createError) {
+        console.error('❌ Failed to create profile:', createError);
+        throw new Error(lang === 'bn' ? 'প্রোফাইল তৈরি করতে ব্যর্থ হয়েছে' : 'Failed to create profile');
       }
 
-      console.log('✅ Registration successful!');
-      console.log('   User data:', data.user);
-      console.log('   Session:', data.session);
-
-      // Check if user is automatically signed in
-      if (data.session) {
-        console.log('✅ User automatically signed in after registration');
-        console.log('   Session user:', data.session.user.email);
-        // Profile will be created by loadUserProfile in App.tsx
-      } else {
-        console.log('⚠️  User registered but not automatically signed in');
-        console.log('   May need email confirmation or manual sign in');
-      }
+      console.log('✅ Profile created successfully:', newProfile);
 
       // Show success message
       setSuccess(true);
       setTimeout(() => {
-        // Don't automatically go to dashboard - user needs to sign in first
-        // onRegisterSuccess will handle navigation
+        // Store user info in localStorage for now (in production, use JWT)
+        localStorage.setItem('user', JSON.stringify({
+          id: userId,
+          email: formData.email,
+          name: formData.name,
+          role: formData.role
+        }));
         onRegisterSuccess?.();
       }, 2000);
 

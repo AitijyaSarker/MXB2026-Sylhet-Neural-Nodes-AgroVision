@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
-import { Language } from '../../types';
+import { useTranslation } from '../../src/hooks/useTranslation';
 
-export const Contact: React.FC<{ lang: Language }> = ({ lang }) => {
+export const Contact: React.FC = () => {
+  const { t } = useTranslation();
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -15,7 +16,7 @@ export const Contact: React.FC<{ lang: Language }> = ({ lang }) => {
     <div className="max-w-7xl mx-auto px-4 py-16 grid md:grid-cols-2 gap-16">
       <div className="space-y-8">
         <h2 className="text-5xl font-black leading-tight text-zinc-900 dark:text-white">
-          {lang === 'bn' ? 'আমাদের সাথে যোগাযোগ করুন' : 'Get in Touch with Us'}
+          {t('contact_title')}
         </h2>
         <div className="space-y-6">
           <div className="flex items-center gap-4">
@@ -23,7 +24,7 @@ export const Contact: React.FC<{ lang: Language }> = ({ lang }) => {
               <Mail />
             </div>
             <div>
-              <p className="text-xs font-black text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">Email</p>
+              <p className="text-xs font-black text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">{t('contact_email')}</p>
               <p className="font-bold text-zinc-900 dark:text-white">support@agrovision.bd</p>
             </div>
           </div>
@@ -32,7 +33,7 @@ export const Contact: React.FC<{ lang: Language }> = ({ lang }) => {
               <Phone />
             </div>
             <div>
-              <p className="text-xs font-black text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">Phone</p>
+              <p className="text-xs font-black text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">{t('contact_phone')}</p>
               <p className="font-bold text-zinc-900 dark:text-white">+880 1712-345678</p>
             </div>
           </div>
@@ -41,7 +42,7 @@ export const Contact: React.FC<{ lang: Language }> = ({ lang }) => {
               <MapPin />
             </div>
             <div>
-              <p className="text-xs font-black text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">Location</p>
+              <p className="text-xs font-black text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">{t('contact_location')}</p>
               <p className="font-bold text-zinc-900 dark:text-white">Neural Nodes HQ, Dhaka</p>
             </div>
           </div>
@@ -52,23 +53,23 @@ export const Contact: React.FC<{ lang: Language }> = ({ lang }) => {
         {submitted ? (
           <div className="h-full flex flex-col items-center justify-center text-center space-y-4 animate-in zoom-in duration-500">
             <CheckCircle className="w-16 h-16 text-green-700 dark:text-green-500 mb-4" />
-            <h3 className="text-2xl font-black text-zinc-900 dark:text-white">{lang === 'bn' ? 'বার্তা পাঠানো হয়েছে!' : 'Message Sent!'}</h3>
-            <p className="text-zinc-700 dark:text-zinc-400 font-bold">{lang === 'bn' ? 'আমরা শীঘ্রই যোগাযোগ করব।' : 'We will respond shortly.'}</p>
+            <h3 className="text-2xl font-black text-zinc-900 dark:text-white">{t('message_sent')}</h3>
+            <p className="text-zinc-700 dark:text-zinc-400 font-bold">{t('message_response')}</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid gap-6">
               <div className="space-y-2">
-                <label className="text-sm font-black text-zinc-800 dark:text-zinc-300 ml-1">Name</label>
-                <input required type="text" className="w-full px-5 py-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white font-bold outline-none focus:ring-2 ring-green-600 transition-all" placeholder="Enter your name" />
+                <label className="text-sm font-black text-zinc-800 dark:text-zinc-300 ml-1">{t('contact_name')}</label>
+                <input required type="text" className="w-full px-5 py-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white font-bold outline-none focus:ring-2 ring-green-600 transition-all" placeholder={t('contact_name_placeholder')} />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-black text-zinc-800 dark:text-zinc-300 ml-1">Message</label>
-                <textarea required rows={4} className="w-full px-5 py-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white font-bold outline-none focus:ring-2 ring-green-600 transition-all resize-none" placeholder="How can we help?" />
+                <label className="text-sm font-black text-zinc-800 dark:text-zinc-300 ml-1">{t('contact_message')}</label>
+                <textarea required rows={4} className="w-full px-5 py-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white font-bold outline-none focus:ring-2 ring-green-600 transition-all resize-none" placeholder={t('contact_message_placeholder')} />
               </div>
             </div>
             <button type="submit" className="w-full py-5 bg-green-700 hover:bg-green-800 text-white font-black rounded-2xl shadow-xl shadow-green-700/20 transform transition-all active:scale-95">
-              {lang === 'bn' ? 'বার্তা পাঠান' : 'Submit Message'}
+              {t('submit_message')}
             </button>
           </form>
         )}

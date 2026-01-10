@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { authService, supabase, dbService } from '../supabase';
+import { dbService } from '../mongodb';
 import { Language } from '../types';
 import { Mail, Lock, LogIn } from 'lucide-react';
 
@@ -36,21 +36,34 @@ export const Login: React.FC<LoginProps> = ({ lang, onLoginSuccess, onSwitchToRe
         throw new Error(lang === 'bn' ? 'পাসওয়ার্ড প্রয়োজন' : 'Password is required');
       }
 
-      // Sign in with Supabase
+      // For now, just check if user exists in MongoDB (password check is basic)
       console.log('🔐 Attempting to sign in user:', formData.email);
-      const { data, error: signInError } = await authService.signIn(
-        formData.email,
-        formData.password
-      );
 
-      if (signInError) {
-        console.error('❌ Sign in failed:', signInError.message);
-        throw signInError;
+      // Get all users and find matching email
+      const { data: allUsers, error: fetchError } = await dbService.getAllProfiles();
+
+      if (fetchError) {
+        throw new Error('Failed to fetch user data');
       }
 
-      console.log('✅ Sign in successful for:', data?.user?.email);
-      // Profile should already exist from signup
-      // App.tsx will handle profile loading and role detection
+      const user = allUsers?.find(u => u.email === formData.email);
+
+      if (!user) {
+        throw new Error(lang === 'bn' ? 'ইমেইল না পাওয়া গেছে' : 'Email not found');
+      }
+
+      // For now, accept any password (in production, implement proper password hashing)
+      console.log('✅ Sign in successful for:', user.email);
+
+      // Store user info in localStorage
+      localStorage.setItem('user', JSON.stringify({
+        id: user._id || user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+        avatar: user.avatar || ''
+      }));
+
       onLoginSuccess?.();
 
     } catch (err: any) {

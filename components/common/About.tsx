@@ -1,9 +1,11 @@
 
 import React from 'react';
-import { Language } from '../../types';
 import { Shield, Target, Award, Rocket } from 'lucide-react';
+import { useTranslation } from '../../src/hooks/useTranslation';
 
-export const About: React.FC<{ lang: Language }> = ({ lang }) => {
+export const About: React.FC = () => {
+  const { t } = useTranslation();
+
   const team = [
     { name: 'Aitijya Sarker', role: 'Development Leader', inst: 'Metropolitan University', img: '/assets/aitijya.png' },
     { name: 'Jubayer Rahman Chowdhury', role: 'Data Researcher and Model Trainer', inst: 'Metropolitan University', img: '/assets/Jubayer.jpg' },
@@ -13,20 +15,18 @@ export const About: React.FC<{ lang: Language }> = ({ lang }) => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-16 space-y-24">
       <div className="text-center max-w-3xl mx-auto space-y-6">
-        <h2 className="text-4xl md:text-5xl font-black text-zinc-900 dark:text-white">{lang === 'bn' ? 'আমাদের মিশন' : 'Our Mission'}</h2>
+        <h2 className="text-4xl md:text-5xl font-black text-zinc-900 dark:text-white">{t('about_mission_title')}</h2>
         <p className="text-lg text-zinc-800 dark:text-zinc-400 leading-relaxed font-bold">
-          {lang === 'bn' ? 
-            'বাংলাদেশের কৃষি ব্যবস্থাকে প্রযুক্তির মাধ্যমে আধুনিকায়ন করা এবং কৃষকদের ফসলের সঠিক পরিচর্যার জন্য উন্নত প্রযুক্তি প্রদান করা আমাদের প্রধান লক্ষ্য।' : 
-            'Our primary goal is to modernize Bangladesh\'s agricultural system through technology and provide farmers with advanced tools for proper crop care.'}
+          {t('about_mission_description')}
         </p>
       </div>
 
       <div className="grid md:grid-cols-4 gap-8">
         {[
-          { icon: Shield, val: '98%', label: lang === 'bn' ? 'নির্ভুলতা' : 'Accuracy' },
-          { icon: Target, val: '24/7', label: lang === 'bn' ? 'সাপোর্ট' : 'Support' },
-          { icon: Rocket, val: '10K+', label: lang === 'bn' ? 'ইউজার' : 'Users' },
-          { icon: Award, val: 'Winner', label: lang === 'bn' ? 'এওয়ার্ড' : 'Awards' },
+          { icon: Shield, val: '98%', label: t('about_accuracy') },
+          { icon: Target, val: '24/7', label: t('about_support') },
+          { icon: Rocket, val: '10K+', label: t('about_users') },
+          { icon: Award, val: 'Winner', label: t('about_awards') },
         ].map((s, i) => (
           <div key={i} className="bg-white dark:bg-zinc-800 p-8 rounded-3xl text-center shadow-lg transform transition-all hover:-translate-y-2 border border-zinc-200 dark:border-zinc-700">
             <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
@@ -40,7 +40,7 @@ export const About: React.FC<{ lang: Language }> = ({ lang }) => {
 
       <div className="space-y-12">
         <h3 className="text-3xl font-black text-center text-zinc-900 dark:text-white uppercase tracking-tight">
-          {lang === 'bn' ? 'টিম নিউরাল নোডস' : 'Team Neural Nodes'}
+          {t('about_team_title')}
         </h3>
         <div className="grid md:grid-cols-3 gap-12">
           {team.map((m, i) => (

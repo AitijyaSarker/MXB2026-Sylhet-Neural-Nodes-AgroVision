@@ -2,11 +2,9 @@
 import React from 'react';
 import { Sun, Moon, Languages, Leaf, UserCircle } from 'lucide-react';
 import { Language, UserRole } from '../../types';
-import { translations } from '../../translations';
+import { useTranslation } from '../../src/hooks/useTranslation';
 
 interface NavbarProps {
-  lang: Language;
-  setLang: (l: Language) => void;
   theme: 'light' | 'dark';
   setTheme: (t: 'light' | 'dark') => void;
   currentPage: string;
@@ -17,9 +15,9 @@ interface NavbarProps {
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ 
-  lang, setLang, theme, setTheme, currentPage, setCurrentPage, userRole, user, onLogout
+  theme, setTheme, currentPage, setCurrentPage, userRole, user, onLogout
 }) => {
-  const t = (key: string) => translations[key]?.[lang] || key;
+  const { lang, setLang, t } = useTranslation();
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-white/95 dark:bg-zinc-950/90 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 transition-all">
@@ -32,7 +30,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <Leaf className="w-6 h-6 text-green-700 dark:text-green-500" />
           </div>
           <span className="text-xl font-black bg-gradient-to-r from-green-700 to-emerald-600 bg-clip-text text-transparent">
-            Agro Vision
+            {t('app_title')}
           </span>
         </div>
 

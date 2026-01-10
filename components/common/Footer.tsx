@@ -1,10 +1,9 @@
 import React from 'react';
 import { Leaf, Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin, ExternalLink } from 'lucide-react';
-import { Language } from '../../types';
-import { translations } from '../../translations';
+import { useTranslation } from '../../src/hooks/useTranslation';
 
-export const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
-  const t = (key: string) => translations[key]?.[lang] || key;
+export const Footer: React.FC = () => {
+  const { t } = useTranslation();
 
   return (
     <footer className="bg-zinc-100 dark:bg-zinc-900 py-20 px-6 border-t border-zinc-300 dark:border-zinc-800">
@@ -20,7 +19,7 @@ export const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
             </span>
           </div>
           <p className="text-zinc-700 dark:text-zinc-400 text-sm font-bold leading-relaxed max-w-xs">
-            {translations.footer_text[lang]}
+            {t('footer_text')}
           </p>
           <div className="flex gap-3">
             {[
@@ -43,7 +42,7 @@ export const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
         {/* Quick Links */}
         <div>
           <h4 className="text-lg font-black mb-8 text-zinc-900 dark:text-white">
-            {lang === 'bn' ? 'দ্রুত লিঙ্ক' : 'Quick Links'}
+            {t('footer_quick_links')}
           </h4>
           <ul className="space-y-4">
             {['home', 'datasets', 'about', 'contact'].map((item) => (
@@ -60,7 +59,7 @@ export const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
         {/* Contact Info */}
         <div className="lg:col-span-1">
           <h4 className="text-lg font-black mb-8 text-zinc-900 dark:text-white">
-            {lang === 'bn' ? 'যোগাযোগ' : 'Get In Touch'}
+            {t('footer_get_in_touch')}
           </h4>
           <ul className="space-y-6">
             <li className="flex items-start gap-4">
@@ -68,7 +67,7 @@ export const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
                 <Mail className="w-5 h-5 text-green-700 dark:text-green-500" />
               </div>
               <div>
-                <p className="text-xs font-black text-zinc-500 dark:text-zinc-500 uppercase tracking-widest mb-1">Email</p>
+                <p className="text-xs font-black text-zinc-500 dark:text-zinc-500 uppercase tracking-widest mb-1">{t('footer_email')}</p>
                 <a href="mailto:support@agrovision.bd" className="text-sm font-black text-zinc-900 dark:text-white hover:text-green-700 transition-colors">
                   support@agrovision.bd
                 </a>
@@ -79,7 +78,7 @@ export const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
                 <Phone className="w-5 h-5 text-blue-700 dark:text-blue-500" />
               </div>
               <div>
-                <p className="text-xs font-black text-zinc-500 dark:text-zinc-500 uppercase tracking-widest mb-1">Call Us</p>
+                <p className="text-xs font-black text-zinc-500 dark:text-zinc-500 uppercase tracking-widest mb-1">{t('footer_call_us')}</p>
                 <a href="tel:+8801712345678" className="text-sm font-black text-zinc-900 dark:text-white hover:text-green-700 transition-colors">
                   +880 1712-345678
                 </a>
@@ -90,7 +89,7 @@ export const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
                 <MapPin className="w-5 h-5 text-orange-700 dark:text-orange-500" />
               </div>
               <div>
-                <p className="text-xs font-black text-zinc-500 dark:text-zinc-500 uppercase tracking-widest mb-1">Office</p>
+                <p className="text-xs font-black text-zinc-500 dark:text-zinc-500 uppercase tracking-widest mb-1">{t('footer_office')}</p>
                 <p className="text-sm font-black text-zinc-900 dark:text-white">Banani, Dhaka, Bangladesh</p>
               </div>
             </li>
@@ -100,10 +99,10 @@ export const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
         {/* Newsletter / Meta */}
         <div className="space-y-6">
           <h4 className="text-lg font-black mb-2 text-zinc-900 dark:text-white">
-            {lang === 'bn' ? 'নিউজলেটার' : 'Newsletter'}
+            {t('footer_newsletter')}
           </h4>
           <p className="text-zinc-700 dark:text-zinc-400 text-sm font-bold">
-            {lang === 'bn' ? 'সাপ্তাহিক কৃষি টিপস পেতে যুক্ত হন।' : 'Get weekly AI-powered farming tips delivered.'}
+            {t('footer_newsletter_description')}
           </p>
           <div className="relative group">
             <input 
@@ -112,7 +111,7 @@ export const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
               className="w-full px-5 py-4 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-2xl text-sm font-bold text-zinc-900 dark:text-white focus:ring-2 ring-green-600 outline-none transition-all shadow-sm group-hover:shadow-md"
             />
             <button className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-2 bg-green-700 hover:bg-green-800 text-white font-black rounded-xl text-xs transition-all active:scale-95 shadow-lg shadow-green-700/20">
-              Join
+              {t('footer_join')}
             </button>
           </div>
         </div>
@@ -129,9 +128,9 @@ export const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
         </div>
         
         <div className="flex items-center gap-8">
-          <a href="#" className="text-[10px] font-black text-zinc-600 dark:text-zinc-500 uppercase tracking-widest hover:text-green-700 transition-colors">Privacy</a>
-          <a href="#" className="text-[10px] font-black text-zinc-600 dark:text-zinc-500 uppercase tracking-widest hover:text-green-700 transition-colors">Terms</a>
-          <a href="#" className="text-[10px] font-black text-zinc-600 dark:text-zinc-500 uppercase tracking-widest hover:text-green-700 transition-colors">Cookies</a>
+          <a href="#" className="text-[10px] font-black text-zinc-600 dark:text-zinc-500 uppercase tracking-widest hover:text-green-700 transition-colors">{t('footer_privacy')}</a>
+          <a href="#" className="text-[10px] font-black text-zinc-600 dark:text-zinc-500 uppercase tracking-widest hover:text-green-700 transition-colors">{t('footer_terms')}</a>
+          <a href="#" className="text-[10px] font-black text-zinc-600 dark:text-zinc-500 uppercase tracking-widest hover:text-green-700 transition-colors">{t('footer_cookies')}</a>
         </div>
       </div>
     </footer>

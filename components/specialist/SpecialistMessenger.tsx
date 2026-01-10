@@ -2,10 +2,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Search, Send, User, MoreVertical, Phone, Video, Info, CheckCheck, MessageSquare } from 'lucide-react';
 import { Language, Conversation, Message } from '../../types';
-import { dbService } from '../../supabase';
+import { dbService } from '../../mongodb';
 
 interface SpecialistMessengerProps {
   lang: Language;
+  userId?: string;
 }
 
 const mockConversations: Conversation[] = [
@@ -36,11 +37,51 @@ const mockConversations: Conversation[] = [
   }
 ];
 
-export const SpecialistMessenger: React.FC<SpecialistMessengerProps> = ({ lang }) => {
-  const [conversations, setConversations] = useState<Conversation[]>(mockConversations);
-  const [selectedConv, setSelectedConv] = useState<Conversation | null>(mockConversations[0]);
+export const SpecialistMessenger: React.FC<SpecialistMessengerProps> = ({ lang, userId }) => {
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [selectedConv, setSelectedConv] = useState<Conversation | null>(null);
   const [replyText, setReplyText] = useState('');
+  const [loading, setLoading] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const loadConversations = async () => {
+      if (!userId) return;
+      
+      setLoading(true);
+      const { data, error } = await dbService.getConversationsForSpecialist(userId);
+      
+      if (data && !error) {
+        // Load messages for each conversation
+        const conversationsWithMessages = await Promise.all(
+          data.map(async (conv) => {
+            const { data: messages } = await dbService.getMessages(conv.id);
+            const messagesFormatted: Message[] = (messages || []).map(msg => ({
+              id: msg.id,
+              senderId: msg.sender_id,
+              senderName: msg.sender_id === userId ? 'You' : conv.farmerName,
+              text: msg.text,
+              timestamp: new Date(msg.created_at),
+              isFromFarmer: msg.sender_id !== userId
+            }));
+            
+            return {
+              ...conv,
+              messages: messagesFormatted
+            };
+          })
+        );
+        
+        setConversations(conversationsWithMessages);
+        if (conversationsWithMessages.length > 0) {
+          setSelectedConv(conversationsWithMessages[0]);
+        }
+      }
+      setLoading(false);
+    };
+    
+    loadConversations();
+  }, [userId]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -48,37 +89,47 @@ export const SpecialistMessenger: React.FC<SpecialistMessengerProps> = ({ lang }
     }
 
     // Realtime subscription logic
-    if (selectedConv) {
-      const subscription = dbService.subscribeToMessages(selectedConv.id, (payload) => {
-        const newMessage: Message = {
-          id: payload.new.id,
-          senderId: payload.new.sender_id,
-          senderName: 'Incoming', // In real use, fetch profile
-          text: payload.new.text,
-          timestamp: new Date(payload.new.created_at),
-          isFromFarmer: payload.new.sender_id !== 'specialist_id_here'
-        };
+    if (selectedConv && userId) {
+      const subscription = dbService.subscribeToMessages(selectedConv.id, async (payload) => {
+        // Reload messages for this conversation
+        const { data: messages } = await dbService.getMessages(selectedConv.id);
+        const messagesFormatted: Message[] = (messages || []).map(msg => ({
+          id: msg.id,
+          senderId: msg.sender_id,
+          senderName: msg.sender_id === userId ? 'You' : selectedConv.farmerName,
+          text: msg.text,
+          timestamp: new Date(msg.created_at),
+          isFromFarmer: msg.sender_id !== userId
+        }));
         
         setSelectedConv(prev => prev ? {
           ...prev,
-          messages: [...prev.messages, newMessage],
-          lastMessage: payload.new.text
+          messages: messagesFormatted,
+          lastMessage: payload.new.text,
+          timestamp: new Date(payload.new.created_at)
         } : null);
+        
+        // Update conversations list
+        setConversations(prev => prev.map(c => 
+          c.id === selectedConv.id 
+            ? { ...c, lastMessage: payload.new.text, timestamp: new Date(payload.new.created_at) }
+            : c
+        ));
       });
 
       return () => {
         subscription.unsubscribe();
       };
     }
-  }, [selectedConv?.id]);
+  }, [selectedConv?.id, userId]);
 
   const handleSendReply = async () => {
-    if (!replyText.trim() || !selectedConv) return;
+    if (!replyText.trim() || !selectedConv || !userId) return;
 
     const newMessage: Message = {
       id: Math.random().toString(),
-      senderId: 's1',
-      senderName: 'Dr. Rafiqul',
+      senderId: userId,
+      senderName: 'You',
       text: replyText.trim(),
       timestamp: new Date(),
       isFromFarmer: false
@@ -96,7 +147,7 @@ export const SpecialistMessenger: React.FC<SpecialistMessengerProps> = ({ lang }
     setSelectedConv(updatedConv);
     
     // Save to Supabase
-    await dbService.sendMessage(selectedConv.id, 's1', replyText.trim());
+    await dbService.sendMessage(selectedConv.id, userId, replyText.trim());
     
     setReplyText('');
   };

@@ -3,7 +3,7 @@ import { Camera, Upload, RefreshCcw, CheckCircle2, AlertCircle, Sparkles } from 
 import { Language, DiseaseDetectionResult } from '../../types';
 import { translations } from '../../translations';
 import { detectCropDisease } from '../../geminiService';
-import { dbService } from '../../supabase';
+import { dbService } from '../../mongodb';
 
 interface ScannerProps {
   lang: Language;

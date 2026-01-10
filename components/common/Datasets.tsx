@@ -1,8 +1,10 @@
 import React from 'react';
 import { Database, FileText, ExternalLink } from 'lucide-react';
-import { Language } from '../../types';
+import { useTranslation } from '../../src/hooks/useTranslation';
 
-export const Datasets: React.FC<{ lang: Language }> = ({ lang }) => {
+export const Datasets: React.FC = () => {
+  const { t } = useTranslation();
+
   const ds = [
     {
       name: 'Kaggle PlantVillage Dataset',
@@ -31,12 +33,10 @@ export const Datasets: React.FC<{ lang: Language }> = ({ lang }) => {
     <div className="max-w-7xl mx-auto px-4 py-16 space-y-12">
       <div className="max-w-2xl">
         <h2 className="text-4xl font-black mb-4">
-          {lang === 'bn' ? 'আমাদের ডেটাসেট' : 'AI Datasets'}
+          {t('datasets_title')}
         </h2>
         <p className="text-zinc-500">
-          {lang === 'bn'
-            ? 'আমরা আমাদের এআই মডেল প্রশিক্ষণের জন্য বিশ্বমানের ওপেন সোর্স ডেটাসেট ব্যবহার করি।'
-            : 'We use world-class open-source datasets to train our AI models for maximum accuracy.'}
+          {t('datasets_description')}
         </p>
       </div>
 
@@ -72,7 +72,7 @@ export const Datasets: React.FC<{ lang: Language }> = ({ lang }) => {
               className="mt-8 flex items-center justify-center gap-2 py-3 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 rounded-xl font-bold text-sm hover:opacity-90 transition-all"
             >
               <ExternalLink className="w-4 h-4" />
-              {lang === 'bn' ? 'ডেটাসেট দেখুন' : 'View Dataset'}
+              {t('view_dataset')}
             </a>
           </div>
         ))}
@@ -84,16 +84,14 @@ export const Datasets: React.FC<{ lang: Language }> = ({ lang }) => {
         </div>
         <div>
           <h4 className="text-xl font-bold mb-1">
-            {lang === 'bn' ? 'আপনার ডেটাসেট যুক্ত করুন' : 'Contribute Your Dataset'}
+            {t('contribute_dataset_title')}
           </h4>
           <p className="text-zinc-500 text-sm max-w-xl">
-            {lang === 'bn'
-              ? 'আপনি যদি একজন গবেষক হয়ে থাকেন, আপনার সংগৃহীত ডাটা আমাদের দিয়ে সাহায্য করতে পারেন।'
-              : 'If you are a researcher, you can help by contributing your collected crop disease data to our open platform.'}
+            {t('contribute_dataset_description')}
           </p>
         </div>
         <button className="md:ml-auto px-8 py-3 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700 transition-all whitespace-nowrap">
-          {lang === 'bn' ? 'যোগাযোগ করুন' : 'Contact Us'}
+          {t('contact_us')}
         </button>
       </div>
     </div>
