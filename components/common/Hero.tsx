@@ -27,7 +27,7 @@ export const Hero: React.FC<HeroProps> = ({ onScanClick }) => {
       {/* Floating Cartoon Farmer Illustration */}
       <div className="absolute right-0 bottom-0 md:right-10 md:bottom-10 z-20 w-[300px] md:w-[450px] lg:w-[550px] pointer-events-none animate-float hidden lg:block">
         <img 
-          src="/assets/farmersticker.png" 
+          src="/farmersticker.png" 
           className="w-full h-auto drop-shadow-[0_35px_35px_rgba(0,0,0,0.5)]"
           alt="Farmer using Agro Vision AI"
           onError={(e) => {

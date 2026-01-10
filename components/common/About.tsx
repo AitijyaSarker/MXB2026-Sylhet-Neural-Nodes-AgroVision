@@ -7,9 +7,9 @@ export const About: React.FC = () => {
   const { t } = useTranslation();
 
   const team = [
-    { name: 'Aitijya Sarker', role: 'Development Leader', inst: 'Metropolitan University', img: '/assets/aitijya.png' },
-    { name: 'Jubayer Rahman Chowdhury', role: 'Data Researcher and Model Trainer', inst: 'Metropolitan University', img: '/assets/Jubayer.jpg' },
-    { name: 'Anidro Paul', role: 'UI/UX Designer', inst: 'Metropolitan University', img: '/assets/Anidro.jpg' },
+    { name: 'Aitijya Sarker', role: 'Development Leader', inst: 'Metropolitan University', img: '/aitijya.png' },
+    { name: 'Jubayer Rahman Chowdhury', role: 'Data Researcher and Model Trainer', inst: 'Metropolitan University', img: '/Jubayer.jpg' },
+    { name: 'Anidro Paul', role: 'UI/UX Designer', inst: 'Metropolitan University', img: '/Anidro.jpg' },
   ];
 
   return (
