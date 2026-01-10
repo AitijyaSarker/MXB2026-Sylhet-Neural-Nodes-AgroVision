@@ -12,8 +12,8 @@ const PORT = process.env.PORT || (process.env.NODE_ENV === 'production' ? 3001 :
 
 // Middleware
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? process.env.FRONTEND_URL || 'https://your-production-domain.com'
+  origin: process.env.NODE_ENV === 'production'
+    ? process.env.FRONTEND_URL || 'https://mxb-2026-sylhet-neural-nodes-agro-v.vercel.app'
     : 'http://localhost:3016',
   credentials: true
 }));
