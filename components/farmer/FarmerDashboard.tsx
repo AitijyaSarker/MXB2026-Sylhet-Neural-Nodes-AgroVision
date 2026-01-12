@@ -1,20 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { Search, MessageSquare, MapPin, Users, Bell, LayoutDashboard, RefreshCw, Send } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { dbService } from '../../mongodb';
 import { Specialist, Message, Language } from '../../types';
 import { Scanner } from '../Scanner';
-import { MapComponent } from '../MapComponent';
 import { getChatResponse } from '../../geminiService';
-import { useTranslation } from '../../src/hooks/useTranslation';
+import { translations } from '../../translations';
+
+// Dynamically import MapComponent to prevent SSR issues
+const MapComponent = dynamic(() => import('../MapComponent').then(mod => ({ default: mod.MapComponent })), {
+  ssr: false,
+  loading: () => (
+    <div className="flex items-center justify-center h-[500px]">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
+        <p>Loading map...</p>
+      </div>
+    </div>
+  )
+});
 
 interface FarmerDashboardProps {
   userRole: 'farmer' | 'guest';
   userId?: string;
   user?: any;
+  lang: Language;
 }
 
-const FarmerDashboard: React.FC<FarmerDashboardProps> = ({ userRole, userId, user }) => {
-  const { t } = useTranslation();
+const FarmerDashboard: React.FC<FarmerDashboardProps> = ({ userRole, userId, user, lang }) => {
+  const t = (key: string) => translations[key]?.[lang] || key;
   const [activeTab, setActiveTab] = useState<'scan' | 'chat' | 'offices' | 'specialists' | 'messages' | 'profile'>('scan');
   const [specialists, setSpecialists] = useState<Specialist[]>([]);
   const [consulting, setConsulting] = useState<Specialist | null>(null);

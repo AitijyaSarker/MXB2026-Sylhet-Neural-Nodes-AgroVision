@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import { dbService } from '../mongodb';
 import { Language } from '../types';
 import { Mail, Lock, LogIn } from 'lucide-react';
-import { useTranslation } from '../src/hooks/useTranslation';
+import { translations } from '../translations';
 
 interface LoginProps {
+  lang: Language;
   onLoginSuccess?: (userData: any) => void;
   onSwitchToRegister?: () => void;
 }
 
-export const Login: React.FC<LoginProps> = ({ onLoginSuccess, onSwitchToRegister }) => {
-  const { t, lang } = useTranslation();
+export const Login: React.FC<LoginProps> = ({ lang, onLoginSuccess, onSwitchToRegister }) => {
+  const t = (key: string) => translations[key]?.[lang] || key;
   const [formData, setFormData] = useState({
     email: '',
     password: ''

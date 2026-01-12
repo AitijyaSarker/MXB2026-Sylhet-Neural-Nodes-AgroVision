@@ -1,14 +1,14 @@
 import React from 'react';
 import { Leaf, Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin, ExternalLink } from 'lucide-react';
-import { useTranslation } from '../../src/hooks/useTranslation';
 import { Language } from '../../types';
+import { translations } from '../../translations';
 
 interface FooterProps {
   lang: Language;
 }
 
 export const Footer: React.FC<FooterProps> = ({ lang }) => {
-  const { t } = useTranslation();
+  const t = (key: string) => translations[key]?.[lang] || key;
 
   return (
     <footer className="bg-zinc-100 dark:bg-zinc-900 py-20 px-6 border-t border-zinc-300 dark:border-zinc-800">

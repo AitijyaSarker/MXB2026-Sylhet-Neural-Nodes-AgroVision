@@ -4,14 +4,15 @@ import { SpecialistMessenger } from './SpecialistMessenger';
 import { Language } from '../../types';
 import { LayoutDashboard, MessageSquare, Calendar, Users, Bell, Search, Settings } from 'lucide-react';
 import { dbService } from '../../mongodb';
-import { useTranslation } from '../../src/hooks/useTranslation';
+import { translations } from '../../translations';
 
 interface SpecialistDashboardProps {
   userId?: string;
+  lang: Language;
 }
 
-export const SpecialistDashboard: React.FC<SpecialistDashboardProps> = ({ userId }) => {
-  const { t, lang } = useTranslation();
+export const SpecialistDashboard: React.FC<SpecialistDashboardProps> = ({ userId, lang }) => {
+  const t = (key: string) => translations[key]?.[lang] || key;
   const [activeTab, setActiveTab] = useState<'messenger' | 'stats' | 'appointments' | 'profile'>('messenger');
   const [userProfile, setUserProfile] = useState<any>(null);
   const [notifications, setNotifications] = useState<any[]>([]);

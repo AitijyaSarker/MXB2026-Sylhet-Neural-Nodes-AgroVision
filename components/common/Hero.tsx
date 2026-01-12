@@ -1,15 +1,16 @@
 
 import React from 'react';
 import { Scan, ShieldCheck, Microscope, Users, ArrowRight } from 'lucide-react';
-import { useTranslation } from '../../src/hooks/useTranslation';
 import { Language } from '../../types';
+import { translations } from '../../translations';
 
 interface HeroProps {
   onGetStarted: () => void;
+  lang: Language;
 }
 
-export const Hero: React.FC<HeroProps> = ({ onGetStarted }) => {
-  const { t } = useTranslation();
+export const Hero: React.FC<HeroProps> = ({ onGetStarted, lang }) => {
+  const t = (key: string) => translations[key]?.[lang] || key;
 
   return (
     <div className="relative w-full min-h-[85vh] flex items-center overflow-hidden">

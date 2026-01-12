@@ -2,7 +2,7 @@
 import React from 'react';
 import { Sun, Moon, Languages, Leaf, UserCircle } from 'lucide-react';
 import { Language, UserRole } from '../../types';
-import { useTranslation } from '../../src/hooks/useTranslation';
+import { translations } from '../../translations';
 
 interface NavbarProps {
   theme: 'light' | 'dark';
@@ -25,7 +25,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   lang,
   onLangChange,
 }) => {
-  const { setLang, t } = useTranslation();
+  const t = (key: string) => translations[key]?.[lang] || key;
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-white/95 dark:bg-zinc-950/90 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 transition-all">

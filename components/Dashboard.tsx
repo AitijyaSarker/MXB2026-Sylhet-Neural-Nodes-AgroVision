@@ -1,11 +1,24 @@
 
 import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { Scanner } from './Scanner';
 import { ChatBot } from './ChatBot';
-import { MapComponent } from './MapComponent';
 import { UserRole, Language, Specialist } from '../types';
 import { translations } from '../translations';
 import { MessageSquare, MapPin, Search, Bell, Users, LayoutDashboard } from 'lucide-react';
+
+// Dynamically import MapComponent to prevent SSR issues
+const MapComponent = dynamic(() => import('./MapComponent').then(mod => ({ default: mod.MapComponent })), {
+  ssr: false,
+  loading: () => (
+    <div className="flex items-center justify-center h-[500px]">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
+        <p>Loading map...</p>
+      </div>
+    </div>
+  )
+});
 
 interface DashboardProps {
   lang: Language;

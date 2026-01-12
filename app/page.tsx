@@ -12,10 +12,8 @@ import { Footer } from '../components/common/Footer';
 import { Register } from '../components/Register';
 import { Login } from '../components/Login';
 import { Language, UserRole } from '../types';
-import { useTranslation } from '../src/hooks/useTranslation';
 
 export default function Home() {
-  const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState<'home' | 'login' | 'register' | 'dashboard' | 'datasets' | 'about' | 'contact'>('home');
   const [lang, setLang] = useState<Language>('en');
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
@@ -70,7 +68,7 @@ export default function Home() {
   const renderPage = () => {
     switch (currentPage) {
       case 'home':
-        return <Hero onGetStarted={() => setCurrentPage('register')} />;
+        return <Hero onGetStarted={() => setCurrentPage('register')} lang={lang} />;
       case 'login':
         return (
           <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-zinc-900 p-6">
@@ -93,8 +91,8 @@ export default function Home() {
         );
       case 'dashboard':
         return userRole === 'specialist'
-          ? <SpecialistDashboard userId={user?.id} />
-          : <FarmerDashboard userRole={userRole} userId={user?.id} user={user} />;
+          ? <SpecialistDashboard userId={user?.id} lang={lang} />
+          : <FarmerDashboard userRole={userRole} userId={user?.id} user={user} lang={lang} />;
       case 'datasets':
         return <Datasets />;
       case 'about':
@@ -102,7 +100,7 @@ export default function Home() {
       case 'contact':
         return <Contact />;
       default:
-        return <Hero onGetStarted={() => setCurrentPage('register')} />;
+        return <Hero onGetStarted={() => setCurrentPage('register')} lang={lang} />;
     }
   };
 
