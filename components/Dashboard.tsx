@@ -25,7 +25,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ lang, userRole }) => {
   const renderContent = () => {
     switch (activeTab) {
       case 'scan':
-        return <Scanner lang={lang} />;
+        return <Scanner />;
       case 'chat':
         return <ChatBot lang={lang} />;
       case 'offices':
@@ -54,7 +54,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ lang, userRole }) => {
           </div>
         );
       default:
-        return <Scanner lang={lang} />;
+        return <Scanner />;
     }
   };
 

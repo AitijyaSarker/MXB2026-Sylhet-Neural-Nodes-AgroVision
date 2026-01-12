@@ -4,12 +4,8 @@ import { Shield, Target, Award, Rocket } from 'lucide-react';
 import { useTranslation } from '../../src/hooks/useTranslation';
 import { Language } from '../../types';
 
-interface AboutProps {
-  lang: Language;
-}
-
-export const About: React.FC<AboutProps> = ({ lang }) => {
-  const { t } = useTranslation();
+export const About: React.FC = () => {
+  const { t, lang } = useTranslation();
 
   const team = [
     { name: 'Aitijya Sarker', role: 'Development Leader', inst: 'Metropolitan University', img: '/aitijya.png' },

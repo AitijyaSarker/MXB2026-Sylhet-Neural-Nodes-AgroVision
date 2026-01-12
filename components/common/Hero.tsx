@@ -5,11 +5,10 @@ import { useTranslation } from '../../src/hooks/useTranslation';
 import { Language } from '../../types';
 
 interface HeroProps {
-  lang: Language;
   onGetStarted: () => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ lang, onGetStarted }) => {
+export const Hero: React.FC<HeroProps> = ({ onGetStarted }) => {
   const { t } = useTranslation();
 
   return (

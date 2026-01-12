@@ -8,13 +8,12 @@ import { getChatResponse } from '../../geminiService';
 import { useTranslation } from '../../src/hooks/useTranslation';
 
 interface FarmerDashboardProps {
-  lang: Language;
   userRole: 'farmer' | 'guest';
   userId?: string;
   user?: any;
 }
 
-const FarmerDashboard: React.FC<FarmerDashboardProps> = ({ lang, userRole, userId, user }) => {
+const FarmerDashboard: React.FC<FarmerDashboardProps> = ({ userRole, userId, user }) => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<'scan' | 'chat' | 'offices' | 'specialists' | 'messages' | 'profile'>('scan');
   const [specialists, setSpecialists] = useState<Specialist[]>([]);
@@ -24,6 +23,8 @@ const FarmerDashboard: React.FC<FarmerDashboardProps> = ({ lang, userRole, userI
   const [conversations, setConversations] = useState<Message[]>([]);
   const [userProfile, setUserProfile] = useState<any>(null);
   const [chatMessages, setChatMessages] = useState<{role: 'user' | 'assistant', content: string}[]>([]);
+  const [chatInput, setChatInput] = useState('');
+  const [chatLoading, setChatLoading] = useState(false);
 
   useEffect(() => {
     // Initialize chat with greeting message
@@ -270,11 +271,11 @@ const FarmerDashboard: React.FC<FarmerDashboardProps> = ({ lang, userRole, userI
               {conversations.length > 0 ? conversations.map(message => (
                 <div key={message.id} className="bg-white dark:bg-zinc-800 p-6 rounded-3xl shadow-lg border border-zinc-200 dark:border-zinc-700">
                   <div className="flex items-start gap-4">
-                    <img src={message.fromUserId === userId ? "https://picsum.photos/40/40?person=1" : "https://picsum.photos/40/40?person=2"} className="w-10 h-10 rounded-full border border-zinc-200" alt="avatar" />
+                     <img src={message.senderId === userId ? "https://picsum.photos/40/40?person=1" : "https://picsum.photos/40/40?person=2"} className="w-10 h-10 rounded-full border border-zinc-200" alt="avatar" />
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
                         <span className="font-bold text-zinc-900 dark:text-white">
-                          {message.fromUserId === userId ? 'You' : 'Specialist'}
+                          {message.senderId === userId ? 'You' : 'Specialist'}
                         </span>
                         <span className="text-xs text-zinc-500 dark:text-zinc-400">
                           {new Date(message.timestamp).toLocaleDateString()}

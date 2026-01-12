@@ -35,6 +35,7 @@ export interface Message {
   text: string;
   timestamp: Date;
   isFromFarmer: boolean;
+  fromUserId?: string;
 }
 
 export interface Conversation {

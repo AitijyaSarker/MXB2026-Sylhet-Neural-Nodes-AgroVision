@@ -9,8 +9,23 @@ const connectDB = async () => {
   await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/agrovision');
 };
 
+// User interface
+interface IUser {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  role: 'farmer' | 'specialist';
+  location: {
+    lat: number;
+    lng: number;
+    address: string;
+  };
+  createdAt: Date;
+}
+
 // User schema
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema<IUser>({
   id: String,
   name: String,
   email: String,
@@ -32,7 +47,7 @@ export async function POST(request: NextRequest) {
 
     const { email, password } = await request.json();
 
-    const user = await User.findOne({ email });
+    const user = await (User as any).findOne({ email });
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 400 });
     }

@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { dbService } from '../mongodb';
 import { Language } from '../types';
 import { Mail, Lock, LogIn } from 'lucide-react';
+import { useTranslation } from '../src/hooks/useTranslation';
 
 interface LoginProps {
-  lang: Language;
-  onLoginSuccess?: () => void;
+  onLoginSuccess?: (userData: any) => void;
   onSwitchToRegister?: () => void;
 }
 
-export const Login: React.FC<LoginProps> = ({ lang, onLoginSuccess, onSwitchToRegister }) => {
+export const Login: React.FC<LoginProps> = ({ onLoginSuccess, onSwitchToRegister }) => {
+  const { t, lang } = useTranslation();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -64,7 +65,13 @@ export const Login: React.FC<LoginProps> = ({ lang, onLoginSuccess, onSwitchToRe
         avatar: user.avatar || ''
       }));
 
-      onLoginSuccess?.();
+      onLoginSuccess?.({
+        id: user._id || user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+        avatar: user.avatar || ''
+      });
 
     } catch (err: any) {
       setError(err.message || (lang === 'bn' ? 'লগইন ব্যর্থ হয়েছে' : 'Login failed'));

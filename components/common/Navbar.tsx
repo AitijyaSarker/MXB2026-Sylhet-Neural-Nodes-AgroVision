@@ -11,6 +11,8 @@ interface NavbarProps {
   onPageChange: (page: string) => void;
   onThemeChange: (theme: 'light' | 'dark') => void;
   onLogout: () => void;
+  lang: Language;
+  onLangChange: (lang: Language) => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -20,6 +22,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   onPageChange,
   onThemeChange,
   onLogout,
+  lang,
+  onLangChange,
 }) => {
   const { setLang, t } = useTranslation();
 
@@ -56,7 +60,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         <div className="flex items-center gap-3">
           <button
-            onClick={() => setLang(lang === 'en' ? 'bn' : 'en')}
+            onClick={() => onLangChange(lang === 'en' ? 'bn' : 'en')}
             className="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 flex items-center gap-1 transition-all"
           >
             <Languages className="w-5 h-5 text-zinc-900 dark:text-zinc-400" />

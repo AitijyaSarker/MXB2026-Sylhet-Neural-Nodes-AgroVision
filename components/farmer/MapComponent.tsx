@@ -26,6 +26,7 @@ interface Office {
   lng: number;
   address: string;
   addressBn: string;
+  distance?: number;
 }
 
 const agriculturalOffices: Office[] = [
@@ -261,7 +262,7 @@ export const MapComponent: React.FC<MapComponentProps> = ({ lang }) => {
 
           {mapLoaded ? (
             <MapContainer
-              center={defaultCenter}
+              center={[defaultCenter.lat, defaultCenter.lng]}
               zoom={defaultZoom}
               style={{ height: '100%', width: '100%', borderRadius: '1.5rem' }}
               className="rounded-3xl"
