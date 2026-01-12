@@ -40,6 +40,7 @@ export interface Message {
 
 export interface Conversation {
   id: string;
+  farmerId?: string;
   farmerName: string;
   farmerImage: string;
   lastMessage: string;

@@ -41,7 +41,13 @@ export const Scanner: React.FC<ScannerProps> = ({ lang, userId }) => {
       setResult(detection);
       
       if (userId) {
-        await dbService.saveScan(userId, detection, 'base64_demo_url');
+        await dbService.saveScan({
+          userId,
+          cropName: detection.cropName || 'Unknown',
+          diseaseName: detection.diseaseName || 'Unknown',
+          confidence: detection.confidence || 0,
+          resultJson: detection
+        });
       }
     } catch (err) {
       setError(lang === 'bn' ? 'ছবি বিশ্লেষণে ত্রুটি হয়েছে' : 'Error analyzing image');

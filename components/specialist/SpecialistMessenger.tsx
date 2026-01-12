@@ -49,7 +49,7 @@ export const SpecialistMessenger: React.FC<SpecialistMessengerProps> = ({ lang, 
       if (!userId) return;
       
       setLoading(true);
-      const { data, error } = await dbService.getConversationsForSpecialist(userId);
+      const { data, error } = await dbService.getConversations(userId);
       
       if (data && !error) {
         // Load messages for each conversation
@@ -88,39 +88,39 @@ export const SpecialistMessenger: React.FC<SpecialistMessengerProps> = ({ lang, 
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
 
-    // Realtime subscription logic
-    if (selectedConv && userId) {
-      const subscription = dbService.subscribeToMessages(selectedConv.id, async (payload) => {
-        // Reload messages for this conversation
-        const { data: messages } = await dbService.getMessages(selectedConv.id);
-        const messagesFormatted: Message[] = (messages || []).map(msg => ({
-          id: msg.id,
-          senderId: msg.sender_id,
-          senderName: msg.sender_id === userId ? 'You' : selectedConv.farmerName,
-          text: msg.text,
-          timestamp: new Date(msg.created_at),
-          isFromFarmer: msg.sender_id !== userId
-        }));
-        
-        setSelectedConv(prev => prev ? {
-          ...prev,
-          messages: messagesFormatted,
-          lastMessage: payload.new.text,
-          timestamp: new Date(payload.new.created_at)
-        } : null);
-        
-        // Update conversations list
-        setConversations(prev => prev.map(c => 
-          c.id === selectedConv.id 
-            ? { ...c, lastMessage: payload.new.text, timestamp: new Date(payload.new.created_at) }
-            : c
-        ));
-      });
-
-      return () => {
-        subscription.unsubscribe();
-      };
-    }
+    // Realtime subscription logic - commented out as not implemented
+    // if (selectedConv && userId) {
+    //   const subscription = dbService.subscribeToMessages(selectedConv.id, async (payload) => {
+    //     // Reload messages for this conversation
+    //     const { data: messages } = await dbService.getMessages(selectedConv.id);
+    //     const messagesFormatted: Message[] = (messages || []).map(msg => ({
+    //       id: msg.id,
+    //       senderId: msg.sender_id,
+    //       senderName: msg.sender_id === userId ? 'You' : selectedConv.farmerName,
+    //       text: msg.text,
+    //       timestamp: new Date(msg.created_at),
+    //       isFromFarmer: msg.sender_id !== userId
+    //     }));
+    //     
+    //     setSelectedConv(prev => prev ? {
+    //       ...prev,
+    //       messages: messagesFormatted,
+    //       lastMessage: payload.new.text,
+    //       timestamp: new Date(payload.new.created_at)
+    //     } : null);
+    //     
+    //     // Update conversations list
+    //     setConversations(prev => prev.map(c => 
+    //       c.id === selectedConv.id 
+    //         ? { ...c, lastMessage: payload.new.text, timestamp: new Date(payload.new.created_at) }
+    //         : c
+    //     ));
+    //   });
+    //
+    //   return () => {
+    //     subscription.unsubscribe();
+    //   };
+    // }
   }, [selectedConv?.id, userId]);
 
   const handleSendReply = async () => {
@@ -147,7 +147,12 @@ export const SpecialistMessenger: React.FC<SpecialistMessengerProps> = ({ lang, 
     setSelectedConv(updatedConv);
     
     // Save to database
-    await dbService.sendMessage(selectedConv.id, userId, replyText.trim());
+    await dbService.sendMessage({
+      fromUserId: userId,
+      toUserId: selectedConv.farmerId || selectedConv.id.split('-').find(id => id !== userId) || '',
+      text: replyText.trim(),
+      timestamp: new Date()
+    });
     
     setReplyText('');
   };

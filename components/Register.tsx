@@ -77,7 +77,12 @@ export const Register: React.FC<RegisterProps> = ({ lang, onRegisterSuccess, onS
           name: formData.name,
           role: formData.role
         }));
-        onRegisterSuccess?.();
+        onRegisterSuccess?.({
+          id: userId,
+          email: formData.email,
+          name: formData.name,
+          role: formData.role
+        });
       }, 2000);
 
     } catch (err: any) {
