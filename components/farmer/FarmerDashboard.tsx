@@ -18,7 +18,6 @@ const FarmerDashboard: React.FC<FarmerDashboardProps> = ({ lang, userRole, userI
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<'scan' | 'chat' | 'offices' | 'specialists' | 'messages' | 'profile'>('scan');
   const [specialists, setSpecialists] = useState<Specialist[]>([]);
-  const [userId, setUserId] = useState<string | null>(null);
   const [consulting, setConsulting] = useState<Specialist | null>(null);
   const [messageText, setMessageText] = useState('');
   const [sentSuccess, setSentSuccess] = useState(false);
@@ -33,13 +32,10 @@ const FarmerDashboard: React.FC<FarmerDashboardProps> = ({ lang, userRole, userI
 
   useEffect(() => {
     // Set user data from props
-    if (userId) {
-      setUserId(userId);
-    }
     if (user) {
       setUserProfile(user);
     }
-  }, [userId, user]);
+  }, [user]);
 
   useEffect(() => {
     if (userId) {
