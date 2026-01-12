@@ -6,17 +6,21 @@ import { useTranslation } from '../../src/hooks/useTranslation';
 
 interface NavbarProps {
   theme: 'light' | 'dark';
-  setTheme: (t: 'light' | 'dark') => void;
   currentPage: string;
-  setCurrentPage: (p: string) => void;
   userRole: UserRole;
-  user: any;
+  onPageChange: (page: string) => void;
+  onThemeChange: (theme: 'light' | 'dark') => void;
   onLogout: () => void;
-  lang: Language;
+}
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ 
-  theme, setTheme, currentPage, setCurrentPage, userRole, user, onLogout, lang
+export const Navbar: React.FC<NavbarProps> = ({
+  theme,
+  currentPage,
+  userRole,
+  onPageChange,
+  onThemeChange,
+  onLogout,
 }) => {
   const { setLang, t } = useTranslation();
 
@@ -25,7 +29,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
         <div 
           className="flex items-center gap-2 cursor-pointer group"
-          onClick={() => setCurrentPage('home')}
+          onClick={() => onPageChange('home')}
         >
           <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg group-hover:rotate-12 transition-transform">
             <Leaf className="w-6 h-6 text-green-700 dark:text-green-500" />
@@ -39,7 +43,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {['home', 'datasets', 'about', 'contact'].map((item) => (
             <button
               key={item}
-              onClick={() => setCurrentPage(item)}
+              onClick={() => onPageChange(item)}
               className={`text-sm font-black transition-colors ${
                 currentPage === item 
                   ? 'text-green-700' 
@@ -61,7 +65,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
           
           <button
-            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+            onClick={() => onThemeChange(theme === 'light' ? 'dark' : 'light')}
             className="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all flex items-center justify-center"
             aria-label="Toggle Theme"
           >
@@ -74,7 +78,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {userRole === 'guest' ? (
             <button
-              onClick={() => setCurrentPage('signup')}
+              onClick={() => onPageChange('signup')}
               className="px-6 py-2 bg-green-700 hover:bg-green-800 text-white text-sm font-black rounded-full transition-all shadow-lg shadow-green-700/20"
             >
               {t('nav_signup')}
@@ -82,7 +86,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           ) : (
             <div className="flex items-center gap-2">
               <button 
-                onClick={() => setCurrentPage('dashboard')}
+                onClick={() => onPageChange('dashboard')}
                 className="flex items-center gap-2 p-1.5 pl-3 pr-4 bg-zinc-100 dark:bg-zinc-800 rounded-full hover:bg-green-50 dark:hover:bg-green-900/20 transition-all border border-zinc-200 dark:border-zinc-700"
               >
                 <UserCircle className="w-6 h-6 text-green-700 dark:text-green-500" />
