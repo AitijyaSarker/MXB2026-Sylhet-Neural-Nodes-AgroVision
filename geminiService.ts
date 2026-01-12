@@ -5,16 +5,23 @@
 // can expose API keys and may produce CORS / 500 errors. Move the real implementation to a
 // backend endpoint and call that from the frontend.
 
-import { GoogleGenerativeAI } from '@google/generative-ai';
+// import { GoogleGenerativeAI } from '@google/generative-ai'; // Moved to conditional import
 
 // Initialize Gemini AI - only when API key is available
-let genAI: GoogleGenerativeAI | null = null;
+let genAI: any = null;
 
 const getGeminiAI = () => {
   if (!genAI) {
     const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
     if (apiKey && apiKey !== 'YOUR_API_KEY') {
-      genAI = new GoogleGenerativeAI(apiKey);
+      try {
+        // Dynamic import to avoid build issues
+        const { GoogleGenerativeAI } = require('@google/generative-ai');
+        genAI = new GoogleGenerativeAI(apiKey);
+      } catch (error) {
+        console.warn('Failed to initialize GoogleGenerativeAI:', error);
+        return null;
+      }
     }
   }
   return genAI;
