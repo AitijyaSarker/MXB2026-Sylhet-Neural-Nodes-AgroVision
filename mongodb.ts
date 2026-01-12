@@ -48,12 +48,12 @@ export const dbService = {
   },
 
   // User/Profile operations
-  createProfile: async (userId: string, name: string, email: string, role: string) => {
+  createProfile: async (userId: string, name: string, email: string, role: string, password: string) => {
     try {
       const response = await apiService.register({
         name,
         email,
-        password: 'defaultpassword', // This should be handled differently in real app
+        password,
         role
       });
       return { data: response.user, error: null };

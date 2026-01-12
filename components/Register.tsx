@@ -56,7 +56,8 @@ export const Register: React.FC<RegisterProps> = ({ lang, onRegisterSuccess, onS
         userId,
         formData.name,
         formData.email,
-        formData.role
+        formData.role,
+        formData.password
       );
 
       if (createError) {
