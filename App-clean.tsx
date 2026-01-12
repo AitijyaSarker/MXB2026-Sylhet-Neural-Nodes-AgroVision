@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/common/Navbar';
 import { Hero } from './components/common/Hero';
-import { FarmerDashboard } from './components/farmer/FarmerDashboard';
+import FarmerDashboard from './components/farmer/FarmerDashboard';
 import { SpecialistDashboard } from './components/specialist/SpecialistDashboard';
 import { About } from './components/common/About';
 import { Datasets } from './components/common/Datasets';
