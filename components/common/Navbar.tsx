@@ -18,7 +18,7 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ 
   theme, setTheme, currentPage, setCurrentPage, userRole, user, onLogout, lang
 }) => {
-  const { lang, setLang, t } = useTranslation();
+  const { setLang, t } = useTranslation();
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-white/95 dark:bg-zinc-950/90 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 transition-all">

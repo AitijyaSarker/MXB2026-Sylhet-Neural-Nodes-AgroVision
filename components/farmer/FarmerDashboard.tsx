@@ -15,7 +15,7 @@ interface FarmerDashboardProps {
 }
 
 const FarmerDashboard: React.FC<FarmerDashboardProps> = ({ lang, userRole, userId, user }) => {
-  const { t, lang } = useTranslation();
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<'scan' | 'chat' | 'offices' | 'specialists' | 'messages' | 'profile'>('scan');
   const [specialists, setSpecialists] = useState<Specialist[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
