@@ -4,6 +4,15 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
+    "./*.{js,ts,jsx,tsx}",
+    "./**/*.{js,ts,jsx,tsx}",
+    "./App.tsx",
+    "./App-*.tsx",
+    "./TestApp.tsx",
+    "./index.tsx",
+  ],
+  safelist: [
+    // Add any dynamic classes here if needed
   ],
   theme: {
     extend: {

@@ -1,7 +1,7 @@
 const API_BASE_URL = process.env.REACT_APP_API_URL ||
   (process.env.NODE_ENV === 'production'
-    ? 'https://agrovision-f5rbwngii-aitijyasarkers-projects.vercel.app/api'
-    : 'http://localhost:3001/api');
+    ? ''
+    : 'http://localhost:3000');
 
 class ApiService {
   private token: string | null = null;
