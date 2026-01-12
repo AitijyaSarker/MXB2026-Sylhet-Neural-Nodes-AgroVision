@@ -21,7 +21,7 @@
   ],
   "headers": [
     {
-      "source": "/**/*.{png,jpg,jpeg,gif,svg,ico,webp}",
+      "source": "/assets/**",
       "headers": [
         {
           "key": "Cache-Control",
@@ -30,4 +30,5 @@
       ]
     }
   ]
+}
 }
