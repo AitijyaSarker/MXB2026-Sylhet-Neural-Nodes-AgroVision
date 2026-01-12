@@ -2,12 +2,14 @@
 import React from 'react';
 import { Scan, ShieldCheck, Microscope, Users, ArrowRight } from 'lucide-react';
 import { useTranslation } from '../../src/hooks/useTranslation';
+import { Language } from '../../types';
 
 interface HeroProps {
-  onScanClick: () => void;
+  lang: Language;
+  onGetStarted: () => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ onScanClick }) => {
+export const Hero: React.FC<HeroProps> = ({ lang, onGetStarted }) => {
   const { t } = useTranslation();
 
   return (
@@ -61,7 +63,7 @@ export const Hero: React.FC<HeroProps> = ({ onScanClick }) => {
 
           <div className="flex flex-wrap items-center gap-6">
             <button
-              onClick={onScanClick}
+              onClick={onGetStarted}
               className="group flex items-center gap-3 px-10 py-5 bg-green-600 hover:bg-green-500 text-white font-black rounded-2xl transition-all shadow-2xl shadow-green-600/40 transform hover:-translate-y-1 active:scale-95"
             >
               <Scan className="w-6 h-6 group-hover:rotate-12 transition-transform" />
