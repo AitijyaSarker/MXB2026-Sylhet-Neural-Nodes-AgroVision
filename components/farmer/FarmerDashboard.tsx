@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Search, MessageSquare, MapPin, Users, Bell, LayoutDashboard, RefreshCw, Send } from 'lucide-react';
 import { dbService } from '../../mongodb';
-import { Specialist, Message } from '../../types';
+import { Specialist, Message, Language } from '../../types';
 import { Scanner } from '../Scanner';
 import { MapComponent } from '../MapComponent';
 import { getChatResponse } from '../../geminiService';
 import { useTranslation } from '../../src/hooks/useTranslation';
 
-const FarmerDashboard: React.FC = () => {
+interface FarmerDashboardProps {
+  lang: Language;
+  userRole: 'farmer' | 'guest';
+  userId?: string;
+  user?: any;
+}
+
+const FarmerDashboard: React.FC<FarmerDashboardProps> = ({ lang, userRole, userId, user }) => {
   const { t, lang } = useTranslation();
   const [activeTab, setActiveTab] = useState<'scan' | 'chat' | 'offices' | 'specialists' | 'messages' | 'profile'>('scan');
   const [specialists, setSpecialists] = useState<Specialist[]>([]);
@@ -23,20 +30,16 @@ const FarmerDashboard: React.FC = () => {
     // Initialize chat with greeting message
     setChatMessages([{ role: 'assistant', content: t('ai_greeting') }]);
   }, [t]);
-  const [chatInput, setChatInput] = useState('');
-  const [chatLoading, setChatLoading] = useState(false);
 
   useEffect(() => {
-    const loadUserData = async () => {
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
-        const userData = JSON.parse(storedUser);
-        setUserId(userData._id);
-        setUserProfile(userData);
-      }
-    };
-    loadUserData();
-  }, []);
+    // Set user data from props
+    if (userId) {
+      setUserId(userId);
+    }
+    if (user) {
+      setUserProfile(user);
+    }
+  }, [userId, user]);
 
   useEffect(() => {
     if (userId) {
