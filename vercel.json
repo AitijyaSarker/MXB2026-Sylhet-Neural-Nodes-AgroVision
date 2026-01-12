@@ -2,6 +2,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "installCommand": "npm install",
+ 
   "functions": {
     "api/index.js": {
       "memory": 2048,
@@ -20,7 +21,7 @@
   ],
   "headers": [
     {
-      "source": "/assets/**",
+      "source": "/**/*.{png,jpg,jpeg,gif,svg,ico,webp}",
       "headers": [
         {
           "key": "Cache-Control",
@@ -29,5 +30,4 @@
       ]
     }
   ]
-}
 }
