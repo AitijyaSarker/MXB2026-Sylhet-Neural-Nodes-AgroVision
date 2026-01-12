@@ -1,6 +1,6 @@
 const API_BASE_URL = process.env.REACT_APP_API_URL ||
   (process.env.NODE_ENV === 'production'
-    ? 'https://agrovision-juh5mhvb3-aitijyasarkers-projects.vercel.app/api'
+    ? 'https://agrovision-f5rbwngii-aitijyasarkers-projects.vercel.app/api'
     : 'http://localhost:3001/api');
 
 class ApiService {
@@ -17,7 +17,7 @@ class ApiService {
       ...options.headers,
     };
 
-    if (this.token) {
+    if y(this.token) {
       headers.Authorization = `Bearer ${this.token}`;
     }
 
