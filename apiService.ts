@@ -1,6 +1,6 @@
 const API_BASE_URL = process.env.REACT_APP_API_URL ||
   (process.env.NODE_ENV === 'production'
-    ? 'https://agrovision-h01nh2ymb-aitijyasarkers-projects.vercel.app/api'
+    ? 'https://agrovision-juh5mhvb3-aitijyasarkers-projects.vercel.app/api'
     : 'http://localhost:3001/api');
 
 class ApiService {
