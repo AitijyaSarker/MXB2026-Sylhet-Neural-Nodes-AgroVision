@@ -8,7 +8,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || (process.env.NODE_ENV === 'production' ? 3001 : 3001);
 
 // Middleware
 app.use(cors({
@@ -22,7 +21,10 @@ app.use(cors({
 app.use(express.json());
 
 // MongoDB connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/agrovision')
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/agrovision', {
+  serverSelectionTimeoutMS: 5000,
+  socketTimeoutMS: 45000,
+})
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.error('MongoDB connection error:', err));
 
@@ -317,6 +319,4 @@ const initializeSpecialists = async () => {
 
 initializeSpecialists();
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+export default app;

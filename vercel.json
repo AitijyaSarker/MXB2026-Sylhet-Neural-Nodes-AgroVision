@@ -3,7 +3,17 @@
   "outputDirectory": "dist",
   "installCommand": "npm install",
   "framework": null,
+  "functions": {
+    "api/index.js": {
+      "memory": 3008,
+      "maxDuration": 60
+    }
+  },
   "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api"
+    },
     {
       "source": "/(.*)",
       "destination": "/index.html"
@@ -19,5 +29,10 @@
         }
       ]
     }
+  ],
+  "env": [
+    "MONGODB_URI",
+    "JWT_SECRET",
+    "FRONTEND_URL"
   ]
 }

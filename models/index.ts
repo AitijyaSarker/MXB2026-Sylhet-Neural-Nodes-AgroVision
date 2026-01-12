@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 
+
 // MongoDB connection URI - supports both local and Atlas
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/agrovision';
 

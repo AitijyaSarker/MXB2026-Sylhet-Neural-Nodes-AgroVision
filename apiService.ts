@@ -1,6 +1,6 @@
 const API_BASE_URL = process.env.REACT_APP_API_URL ||
   (process.env.NODE_ENV === 'production'
-    ? 'https://mxb2026-sylhet-neural-nodes-agrovision-production.up.railway.app/api'
+    ? 'https://agrovision-ai-crop-disease-detection.vercel.app/api'
     : 'http://localhost:3001/api');
 
 class ApiService {
