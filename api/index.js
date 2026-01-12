@@ -12,7 +12,7 @@ const app = express();
 // Middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
-    ? ['https://mxb-2026-sylhet-neural-nodes-agro-v.vercel.app', 'https://agrovision-juh5mhvb3-aitijyasarkers-projects.vercel.app', process.env.FRONTEND_URL].filter(Boolean)
+    ? ['https://mxb-2026-sylhet-neural-nodes-agro-v.vercel.app', 'https://mxb-2026-sylhet-neural-nodes-agro-vision-r3skz53rz.vercel.app', 'https://agrovision-juh5mhvb3-aitijyasarkers-projects.vercel.app', 'https://agrovision-f5rbwngii-aitijyasarkers-projects.vercel.app', process.env.FRONTEND_URL].filter(Boolean)
     : ['http://localhost:3000', 'http://localhost:3016', 'http://127.0.0.1:3000'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
