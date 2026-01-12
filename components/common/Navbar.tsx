@@ -12,7 +12,6 @@ interface NavbarProps {
   onThemeChange: (theme: 'light' | 'dark') => void;
   onLogout: () => void;
 }
-}
 
 export const Navbar: React.FC<NavbarProps> = ({
   theme,
