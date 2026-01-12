@@ -7,15 +7,22 @@
 
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-// Initialize Gemini AI
-const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-if (!apiKey) {
-  console.warn('Gemini API key not found. AI features will be disabled.');
-}
-const genAI = new GoogleGenerativeAI(apiKey || 'YOUR_API_KEY');
+// Initialize Gemini AI - only when API key is available
+let genAI: GoogleGenerativeAI | null = null;
+
+const getGeminiAI = () => {
+  if (!genAI) {
+    const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+    if (apiKey && apiKey !== 'YOUR_API_KEY') {
+      genAI = new GoogleGenerativeAI(apiKey);
+    }
+  }
+  return genAI;
+};
 
 const getGeminiModel = () => {
-  return genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+  const ai = getGeminiAI();
+  return ai ? ai.getGenerativeModel({ model: 'gemini-1.5-flash' }) : null;
 };
 
 export const detectCropDisease = async (_base64Image: string, _lang: 'en' | 'bn') => {
@@ -160,6 +167,10 @@ export const getChatResponse = async (history: { role: string, content: string }
     }
 
     const model = getGeminiModel();
+    if (!model) {
+      // Fallback if model initialization failed
+      return getEnhancedMockResponse(userInput, lang);
+    }
 
     // Create agricultural expertise system prompt
     const systemPrompt = lang === 'en' ?
