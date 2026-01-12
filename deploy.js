@@ -49,6 +49,6 @@ console.log('\n📝 Next Steps:');
 console.log('1. Update FRONTEND_URL in .env with your domain');
 console.log('2. Update apiService.ts with your backend URL');
 console.log('3. Run: npm run build');
-console.log('4. Deploy dist/ folder to your hosting provider');
+console.log('4. Deploy to Vercel (auto-detects Next.js) or deploy .next/ folder to your hosting provider');
 console.log('5. Deploy backend to server (Railway, Render, etc.)');
 console.log('\n🎉 Ready for production deployment!');

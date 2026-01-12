@@ -1,13 +1,12 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-// These environment variables should be provided in the project settings
-// In Vite, client-side env vars must be prefixed with VITE_
-// const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://your-project.supabase.co';
-// const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'your-anon-key';
+import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL!;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY!;
+// These environment variables should be provided in the project settings
+// In Next.js, client-side env vars must be prefixed with NEXT_PUBLIC_
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('❌ Supabase environment variables are missing');
 }
