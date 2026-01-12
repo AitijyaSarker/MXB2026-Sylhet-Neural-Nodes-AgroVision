@@ -146,7 +146,7 @@ export const SpecialistMessenger: React.FC<SpecialistMessengerProps> = ({ lang, 
     setConversations(prev => prev.map(c => c.id === selectedConv.id ? updatedConv : c));
     setSelectedConv(updatedConv);
     
-    // Save to Supabase
+    // Save to database
     await dbService.sendMessage(selectedConv.id, userId, replyText.trim());
     
     setReplyText('');
