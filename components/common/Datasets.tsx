@@ -1,8 +1,13 @@
 import React from 'react';
 import { Database, FileText, ExternalLink } from 'lucide-react';
 import { useTranslation } from '../../src/hooks/useTranslation';
+import { Language } from '../../types';
 
-export const Datasets: React.FC = () => {
+interface DatasetsProps {
+  lang: Language;
+}
+
+export const Datasets: React.FC<DatasetsProps> = ({ lang }) => {
   const { t } = useTranslation();
 
   const ds = [

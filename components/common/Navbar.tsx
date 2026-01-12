@@ -12,10 +12,11 @@ interface NavbarProps {
   userRole: UserRole;
   user: any;
   onLogout: () => void;
+  lang: Language;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ 
-  theme, setTheme, currentPage, setCurrentPage, userRole, user, onLogout
+  theme, setTheme, currentPage, setCurrentPage, userRole, user, onLogout, lang
 }) => {
   const { lang, setLang, t } = useTranslation();
 

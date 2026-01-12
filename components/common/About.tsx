@@ -2,8 +2,13 @@
 import React from 'react';
 import { Shield, Target, Award, Rocket } from 'lucide-react';
 import { useTranslation } from '../../src/hooks/useTranslation';
+import { Language } from '../../types';
 
-export const About: React.FC = () => {
+interface AboutProps {
+  lang: Language;
+}
+
+export const About: React.FC<AboutProps> = ({ lang }) => {
   const { t } = useTranslation();
 
   const team = [

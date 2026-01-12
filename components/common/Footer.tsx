@@ -1,8 +1,13 @@
 import React from 'react';
 import { Leaf, Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin, ExternalLink } from 'lucide-react';
 import { useTranslation } from '../../src/hooks/useTranslation';
+import { Language } from '../../types';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  lang: Language;
+}
+
+export const Footer: React.FC<FooterProps> = ({ lang }) => {
   const { t } = useTranslation();
 
   return (
