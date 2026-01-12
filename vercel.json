@@ -29,10 +29,5 @@
         }
       ]
     }
-  ],
-  "env": [
-    "MONGODB_URI",
-    "JWT_SECRET",
-    "FRONTEND_URL"
   ]
 }
