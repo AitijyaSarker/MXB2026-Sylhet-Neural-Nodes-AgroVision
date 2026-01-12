@@ -8,7 +8,11 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 // Initialize Gemini AI
-const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY || 'YOUR_API_KEY');
+const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+if (!apiKey) {
+  console.warn('Gemini API key not found. AI features will be disabled.');
+}
+const genAI = new GoogleGenerativeAI(apiKey || 'YOUR_API_KEY');
 
 const getGeminiModel = () => {
   return genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
@@ -149,7 +153,7 @@ export const detectCropDisease = async (_base64Image: string, _lang: 'en' | 'bn'
 export const getChatResponse = async (history: { role: string, content: string }[], userInput: string, lang: 'en' | 'bn') => {
   try {
     // Check if API key is available
-    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
     if (!apiKey || apiKey === 'YOUR_ACTUAL_API_KEY_HERE') {
       // Fallback to enhanced mock responses if API key not configured
       return getEnhancedMockResponse(userInput, lang);
