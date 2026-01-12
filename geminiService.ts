@@ -1,35 +1,15 @@
 
 // geminiService.ts
-// Browser-safe stubs for Gemini/Google GenAI calls.
-// NOTE: The Google GenAI SDK must run on a trusted server. Calling it directly from the browser
-// can expose API keys and may produce CORS / 500 errors. Move the real implementation to a
-// backend endpoint and call that from the frontend.
+// Mock implementation for Gemini/Google GenAI calls.
+// This provides fallback responses when the real API is not available.
 
-// import { GoogleGenerativeAI } from '@google/generative-ai'; // Moved to conditional import
-
-// Initialize Gemini AI - only when API key is available
-let genAI: any = null;
-
+// Initialize Gemini AI - mock implementation
 const getGeminiAI = () => {
-  if (!genAI) {
-    const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-    if (apiKey && apiKey !== 'YOUR_API_KEY') {
-      try {
-        // Dynamic import to avoid build issues
-        const { GoogleGenerativeAI } = require('@google/generative-ai');
-        genAI = new GoogleGenerativeAI(apiKey);
-      } catch (error) {
-        console.warn('Failed to initialize GoogleGenerativeAI:', error);
-        return null;
-      }
-    }
-  }
-  return genAI;
+  return null; // Always return null for mock implementation
 };
 
 const getGeminiModel = () => {
-  const ai = getGeminiAI();
-  return ai ? ai.getGenerativeModel({ model: 'gemini-1.5-flash' }) : null;
+  return null; // Always return null for mock implementation
 };
 
 export const detectCropDisease = async (_base64Image: string, _lang: 'en' | 'bn') => {
